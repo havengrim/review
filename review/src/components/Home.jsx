@@ -7,7 +7,10 @@ const Home = () => {
   return (
     <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX}`}>
         <div className={`bg-white ${styles.paddingX} ${styles.paddingY} w-full rounded-md`}>
-            <h4 className={`${styles.heading2} text-black`}>Customer Support Team Evaluation form</h4>
+            <div className='flex gap-2 justify-center items-center md:flex-row flex-col'>
+                <img src='./src/assets/Form-Logo.png' alt='logo'/>
+                <h4 className={`${styles.heading2} text-black`}>Customer Support Team Evaluation form</h4>
+            </div>
             <p className={` text-black ${styles.paragraph}`}> 
                 Thank you for taking the time for answering our Customer Support Team Evaluation Form! Your insights are invaluable and will quide us in improving our services to better meet your needs.
             </p>
