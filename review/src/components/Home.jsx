@@ -2,13 +2,14 @@ import React from 'react'
 import styles, { layout } from "../style";
 import Table from './Table';
 import Buttons from './Buttons';
+import { logo } from '../assets';
 
 const Home = () => {
   return (
     <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX}`}>
         <div className={`bg-white ${styles.paddingX} ${styles.paddingY} w-full rounded-md`}>
             <div className='flex gap-2 justify-center items-center md:flex-row flex-col'>
-                <img src='./src/assets/Form-Logo.png' alt='logo'/>
+                <img src={logo} alt='logo'/>
                 <h4 className={`${styles.heading2} text-black`}>Customer Support Team Evaluation form</h4>
             </div>
             <p className={` text-black ${styles.paragraph}`}> 
