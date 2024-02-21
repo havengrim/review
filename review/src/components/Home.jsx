@@ -23,7 +23,7 @@ const Home = () => {
           <Table />
           <div className='flex justify-between'>
             <div className='flex gap-2'>
-                <Link to="/index">
+                <Link to="/">
                      <Buttons buttonText="Back" styles="bg-black" />
                 </Link>
               <Link to="/index"> {/* Use Link to navigate to Index component */}
