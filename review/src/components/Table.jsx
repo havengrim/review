@@ -31,8 +31,8 @@ const Table = () => {
           {data.map(item => (
             <tr key={item.id} className="bg-white dark:bg-gray-800">
               <th scope="row" className="px-6 py-4">
-                <h4 className='font-semibold text-black whitespace-nowrap dark:text-white'>{item.question}</h4>
-                <p className={`text-[12px] ${styles.paragraph}`}>{item.description}</p>
+                <h4 className='font-semibold text-[18px]  text-black whitespace-nowrap dark:text-white'>{item.question}</h4>
+                <p className={`text-[14px] ${styles.paragraph}`}>{item.description}</p>
               </th>
               {[1, 2, 3, 4, 5].map(rating => (
                 <td key={`${item.id}_${rating}`} className="px-6 py-4">
