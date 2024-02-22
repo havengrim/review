@@ -1,7 +1,7 @@
 import React from 'react'
 import styles, { layout } from "../style";
 import Table from './Table';
-import Buttons from './Buttons';
+import { Button } from './ui/button';
 import { secondLogo } from '../assets';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
@@ -25,7 +25,7 @@ const Home = () => {
                     <div className='flex gap-2'>
                         {/* <Buttons  buttonText="Back" styles="bg-black" /> */}
                         <Link to="/home"> {/* Use Link to navigate to Index component */}
-                            <Buttons buttonText="Next" styles="bg-primary"/>
+                            <Button>Next</Button>
                         </Link>
                     </div>
                     <a href="" className='hover:underline-offset-4 underline'>Clear Form</a>

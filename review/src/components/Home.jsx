@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import styles, { layout } from "../style";
 import Table from './Table';
-import Buttons from './Buttons';
+import { Button } from './ui/button';
 import { logo } from '../assets';
 
 const Home = () => {
@@ -24,10 +24,10 @@ const Home = () => {
           <div className='flex justify-between'>
             <div className='flex gap-2'>
                 <Link to="/">
-                     <Buttons buttonText="Back" styles="bg-black" />
+                     <Button>Back</Button>
                 </Link>
                 <Link to="/greetings"> {/* Use Link to navigate to Index component */}
-                  <Buttons buttonText="Submit" styles="bg-primary"/>
+                  <Button className=" bg-blue-500 hover:bg-blue-800">Submit</Button>
                 </Link>
             </div>
             <a href="" className='hover:underline-offset-4 underline'>Clear Form</a>
