@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import styles from "./style";
 import Home from "./components/Home";
 import Index from "./components/Index";
+import Greetings from './components/Greetings';
 
 const App = () => (
   <Router>
     <div className="bg-primary w-full overflow-hidden">
-      <Routes> {/* Use Routes as the container for your routes */}
-        <Route path="/home" element={<Home />} /> {/* Use 'element' prop to specify the component */}
-        <Route path="/" element={<Index />} /> {/* Use 'element' prop to specify the component */}
+      <Routes> 
+        <Route path="/greetings" element={<Greetings />} /> 
+        <Route path="/home" element={<Home />} /> 
+        <Route path="/" element={<Index />} /> 
       </Routes>
     </div>
   </Router>

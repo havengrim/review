@@ -26,9 +26,9 @@ const Home = () => {
                 <Link to="/">
                      <Buttons buttonText="Back" styles="bg-black" />
                 </Link>
-              <Link to="/index"> {/* Use Link to navigate to Index component */}
-                <Buttons buttonText="Submit" styles="bg-primary"/>
-              </Link>
+                <Link to="/greetings"> {/* Use Link to navigate to Index component */}
+                  <Buttons buttonText="Submit" styles="bg-primary"/>
+                </Link>
             </div>
             <a href="" className='hover:underline-offset-4 underline'>Clear Form</a>
           </div>

@@ -50,9 +50,9 @@ const Table = () => {
         </tbody>
         <tfoot>
           <tr className="font-semibold text-gray-900 dark:text-white">
-            <th scope="row" className="px-6 py-3 text-base" colSpan="6">
+            <th scope="row" className="px-6 py-3" colSpan="6">
                 <div>
-                    <h4>Give your honest feedback</h4>
+                    <p>We appreciate your feedback! Please take a moment to share your experience using our system. Your insights help us improve our services to better meet your needs. Thank you for your support!</p>
                     <textarea className='border-2  border-black w-full rounded-md' rows={4} cols={50} />
                 </div>
             </th>
