@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 const Home = () => {
   return (
     <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX}`}>
-        <div className={`bg-white ${styles.paddingXX} ${styles.paddingY} w-full rounded-md`}>
+        <div className={`bg-white ${styles.paddingXX} ${styles.paddingY} w-full rounded-md `}>
             <div className='flex gap-2 justify-center items-center md:flex-row flex-col'>
                 <img src={secondLogo} alt='logo'/>
                 <h4 className={`text-[18px] ${styles.heading2} text-black`}>School Management System Evaluation Form</h4>
