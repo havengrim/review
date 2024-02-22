@@ -4,6 +4,7 @@ import styles from "./style";
 import Home from "./components/Home";
 import Index from "./components/Index";
 import Greetings from './components/Greetings';
+import Form from './components/Form';
 
 const App = () => (
   <Router>
@@ -11,7 +12,8 @@ const App = () => (
       <Routes> 
         <Route path="/greetings" element={<Greetings />} /> 
         <Route path="/home" element={<Home />} /> 
-        <Route path="/" element={<Index />} /> 
+        <Route path="/index" element={<Index />} /> 
+        <Route path="/" element={<Form />} /> 
       </Routes>
     </div>
   </Router>
