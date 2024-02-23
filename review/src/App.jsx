@@ -6,12 +6,14 @@ import Index from "./components/Index";
 import Greetings from './components/Greetings';
 import Form from './components/Form';
 import Dashboard from './components/Dashboard';
+import Signin from './components/Signin';
 
 const App = () => (
   <Router>
-    <div className="bg-primary w-full overflow-hidden">
+    <div className="bg-gray-100 w-full overflow-hidden">
       <Routes> 
-      <Route path="/dashboard" element={<Dashboard />} /> 
+        <Route path="/dashboard" element={<Dashboard />} /> 
+        <Route path="/sign-in" element={<Signin />} /> 
         <Route path="/greetings" element={<Greetings />} /> 
         <Route path="/home" element={<Home />} /> 
         <Route path="/index" element={<Index />} /> 

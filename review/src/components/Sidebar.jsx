@@ -1,12 +1,13 @@
 // Sidebar.js
 import React from 'react';
 import Navbar from './Navbar';
+import { hero } from "../assets";
 
 const Sidebar = () => {
     return (
         <aside className="hidden lg:flex flex-col w-64 h-screen px-5 py-8 overflow-y-auto bg-white border-r rtl:border-r-0 rtl:border-l dark:bg-gray-900 dark:border-gray-700">
-            <a href="#">
-                <img className="w-auto h-7" src="https://merakiui.com/images/logo.svg" alt="" />
+            <a href="#" className='flex items-center justify-center'>
+                <img className="w-auto h-[90px]" src={hero} alt="" />
             </a>
 
             <div className="flex flex-col justify-between flex-1 mt-6">

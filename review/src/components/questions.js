@@ -1,42 +1,69 @@
 export const data = [
     { 
-        question: "Responsiveness",
-        description: "How does the website adapt to different screen sizes, such as mobile phones, tablets, and desktop computers? Describe any noticeable changes in layout, design, or functionality."
+        question: "User Interface (UI)",
+        description: "Intuitiveness and ease of navigating menus"
     },
     { 
-        question: "User Enrollment",
-        description: "Evaluate the ease and efficiency of the student enrollment process, including data entry, verification, and documentation procedures."
+        question: "Functionality",
+        description: " Enrollment management, Class scheduling, Grading, Report generation "
     },
     { 
-        question: "Attendance Tracking",
-        description: "Assess the system's features for recording and monitoring student attendance, including options for manual entry and automated tracking."
+        question: "Scalability",
+        description: "Ability to handle increased student, teacher, and task load"
     },
     { 
-        question: "Grade Management",
-        description: "Evaluate the effectiveness of the system for managing student grades and academic records, including capabilities for recording, updating, and retrieving data."
+        question: "Integration",
+        description: "Compatibility with LMS, finance software, communication platforms"
     },
     { 
-        question: "Reporting & Analytics",
-        description: "Examine the reporting tools and analytics features available within the system for generating insights into student performance, attendance trends, and other metrics."
+        question: "Security",
+        description: "Role-based access control, Data encryption, Regular security updates"
     },
     { 
-        question: "Communication Tools",
-        description: "Evaluate the communication features such as messaging, announcements, and notifications that facilitate interaction between parents, students, teachers, and administrators."
+        question: "Reporting and Analytics",
+        description: "Robust tools for tracking student performance, attendance trends, and other metrics"
     },
     { 
-        question: "User Interface Usability",
-        description: "Assess the intuitiveness and ease of use of the system's interface for teachers and administrative staff when performing tasks such as grading, scheduling, and generating reports."
+        question: "User Permissions and Roles",
+        description: "Customization of user roles to match responsibilities"
     },
     { 
-        question: "Data Security",
-        description: "Examine the security protocols and measures implemented to safeguard sensitive student information and ensure compliance with data protection regulations."
+        question: "Mobile Accessibility",
+        description: "Availability and functionality of a mobile version or app"
     },
-    { 
-        question: "Online Learning Support",
-        description: "Assess the system's capabilities for delivering online courses, virtual classrooms, and remote learning experiences, including features for video conferencing, content sharing, and assignment submission."
-    },
-    { 
-        question: "Administrative Tasks",
-        description: "Evaluate the administrative functionalities such as staff rostering, resource allocation, budget management, and inventory tracking provided by the system."
-    }
 ];
+
+export const customer = [
+    { 
+        question: "Responsiveness",
+        description: "Time taken to respond to queries and issues"
+    },
+    { 
+        question: "Expertise",
+        description: "Knowledge in addressing technical and functional issues, Ability to provide effective solutions"
+    },
+    { 
+        question: "Communication",
+        description: "Clear and user-friendly communication"
+    },
+    { 
+        question: "Documentation",
+        description: "Availability of comprehensive documentation and knowledge base resources"
+    },
+    { 
+        question: "Training Resources",
+        description: "Availability of training materials, webinars, tutorials to help users become proficient"
+    },
+    { 
+        question: "User Feedback Handling",
+        description: "Actively gathering and incorporating user feedback"
+    },
+    { 
+        question: "Availability",
+        description: "Clearly defined working hours and support availability"
+    },
+    { 
+        question: "Resolution Time",
+        description: "Average time taken to resolve issues"
+    },
+]

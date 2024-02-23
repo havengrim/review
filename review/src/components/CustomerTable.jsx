@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../style';
-import { data } from './questions'; 
+import { customer } from './questions'; 
 
 const Table = () => {
   // State to store ratings for each question
@@ -28,7 +28,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map(item => (
+          {customer.map(item => (
             <tr key={item.id} className="bg-white dark:bg-gray-800">
               <th scope="row" className="px-6 py-4">
                 <h4 className='font-semibold text-[18px]  text-black whitespace-nowrap dark:text-white'>{item.question}</h4>
@@ -48,7 +48,7 @@ const Table = () => {
             </tr>
           ))}
         </tbody>
-        {/* <tfoot>
+        <tfoot>
           <tr className="font-semibold text-gray-900 dark:text-white">
             <th scope="row" className="px-6 py-3" colSpan="6">
                 <div>
@@ -58,7 +58,7 @@ const Table = () => {
             </th>
         
           </tr>
-        </tfoot> */}
+        </tfoot>
       </table>
     </div>
   );

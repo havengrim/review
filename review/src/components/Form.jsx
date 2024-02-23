@@ -9,13 +9,13 @@ import { Link } from 'react-router-dom';
 
 function Form() {
   return (
-    <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX} h-[100vh] bg-primary `}>
+    <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX} h-[100vh] bg-gray-100 `}>
         <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
       <div className="hidden bg-cover lg:block lg:w-1/2" style={{backgroundImage: `url(${background})`}}></div>
 
       <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
         <div className="flex justify-center mx-auto">
-          <img className="w-auto h-7 sm:h-8" src={ hero } alt="" />
+          <img className="w-auto h-10 sm:h-24" src={ hero } alt="" />
         </div>
 
         <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">

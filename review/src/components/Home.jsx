@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import styles, { layout } from "../style";
-import Table from './Table';
+import CustomerTable from './CustomerTable';
 import { Button } from './ui/button';
 import { logo } from '../assets';
 
@@ -20,7 +20,7 @@ const Home = () => {
           Please choose the option that best reflects your opinion for each aspect in the form.
         </p>
         <div className='mt-5'>
-          <Table />
+          <CustomerTable />
           <div className='flex justify-between'>
             <div className='flex gap-2'>
                 <Link to="/">
