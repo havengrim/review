@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useRef } from 'react'
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import { useReactToPrint } from 'react-to-print'; // Import useReactToPrint hook
+
 import {
     Select,
     SelectContent,
@@ -9,25 +11,27 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-  } from "@/components/ui/select"
-  import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-  } from "@/components/ui/pagination"
+} from "@/components/ui/select";
+// import {
+//     Pagination,
+//     PaginationContent,
+//     PaginationEllipsis,
+//     PaginationItem,
+//     PaginationLink,
+//     PaginationNext,
+//     PaginationPrevious,
+//   } from "@/components/ui/pagination"
    
 import { fetchAllEvaluations, deleteEvaluation, fetchEvaluationsBySchool }from '@/services/api';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button } from './ui/button';
 
 
 const adminDashboard = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const [evaluations, setEvaluations] = useState([]);
+    const tableRef = useRef(); 
 
     const getEvaluations = async () => {
         const response = await fetchAllEvaluations();
@@ -58,6 +62,9 @@ const adminDashboard = () => {
         }
         
     }
+    const handlePrint = useReactToPrint({
+        content: () => tableRef.current, // Specify the content to be printed
+    });
     
 
     return (
@@ -65,35 +72,37 @@ const adminDashboard = () => {
             <div className="flex justify-between gap-x-3 w-full">
                 <div className='flex gap-2'>
                     <h2 className="text-lg font-medium text-gray-800 dark:text-white">Responses</h2>
-                    {/* <span className="px-3 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">100 users</span> */}
                 </div>
-                <Select onValueChange={(value) => getEvaluationsBySchool(value) }>
-                    <SelectTrigger className="w-[180px]"  >
-                        <SelectValue placeholder="Select School"/>
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Schools</SelectLabel>
-                            <SelectItem value="COLMC">College of Our Lady of Mt. Carmel - COLMC</SelectItem>
-                            <SelectItem value="TI">TANAUAN INSTITUTE INC - TI</SelectItem>
-                            <SelectItem value="FCB">FEBIAS College of Bible - FCB</SelectItem>
-                            <SelectItem value="TRC">Tomas del Rosario College - TRC</SelectItem>
-                            <SelectItem value="MAV">Montessori Academy of Valenzuela - MAV</SelectItem>
-                            <SelectItem value="JCI">Jocson College Inc. - JCI</SelectItem>
-                            <SelectItem value="NDKC">Notre Dame of Kidapawan College - NDKC</SelectItem>
-                            <SelectItem value="PC/PI">Pampanga Institute / Pampanga Colleges Inc. - PC/PI</SelectItem>
-                            <SelectItem value="STCI">Saint Tonis College, Inc. - STCI</SelectItem>
-                            <SelectItem value="EDSCI">Escuela de Sophia of Caloocan, Inc. - EDSCI</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
             </div>
+            <div className='flex  gap-2 items-end justify-end'>   
+                    <Button className="w-20" onClick={handlePrint}>Export</Button>
+                    <Select onValueChange={(value) => getEvaluationsBySchool(value) }>
+                        <SelectTrigger className="w-[180px]"  >
+                            <SelectValue placeholder="Select School"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Schools</SelectLabel>
+                                <SelectItem value="COLMC">College of Our Lady of Mt. Carmel - COLMC</SelectItem>
+                                <SelectItem value="TI">TANAUAN INSTITUTE INC - TI</SelectItem>
+                                <SelectItem value="FCB">FEBIAS College of Bible - FCB</SelectItem>
+                                <SelectItem value="TRC">Tomas del Rosario College - TRC</SelectItem>
+                                <SelectItem value="MAV">Montessori Academy of Valenzuela - MAV</SelectItem>
+                                <SelectItem value="JCI">Jocson College Inc. - JCI</SelectItem>
+                                <SelectItem value="NDKC">Notre Dame of Kidapawan College - NDKC</SelectItem>
+                                <SelectItem value="PC/PI">Pampanga Institute / Pampanga Colleges Inc. - PC/PI</SelectItem>
+                                <SelectItem value="STCI">Saint Tonis College, Inc. - STCI</SelectItem>
+                                <SelectItem value="EDSCI">Escuela de Sophia of Caloocan, Inc. - EDSCI</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
 
             <div className="flex flex-col mt-6">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                         <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <table ref={tableRef} className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-gray-50 dark:bg-gray-800">
                                     <tr>
                                         <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -126,7 +135,9 @@ const adminDashboard = () => {
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
+                                                <Link to="/summary">
                                                     <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
+                                                </Link>
                                                     <DeleteOutlineRoundedIcon onClick={() => processDeleteEvaluation(evaluation.id) } className=' text-gray-500 cursor-pointer'  />
                                             </td>
                                         </tr>
@@ -151,24 +162,24 @@ const adminDashboard = () => {
                 <Pagination>
                     <PaginationContent>
                         <PaginationItem>
-                        <PaginationPrevious href="#" />
+                            <PaginationPrevious href="#" />
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationLink href="#">1</PaginationLink>
+                            <PaginationLink href="#">1</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationLink href="#" isActive>
-                            2
-                        </PaginationLink>
+                            <PaginationLink href="#" isActive>
+                                2
+                            </PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationLink href="#">3</PaginationLink>
+                            <PaginationLink href="#">3</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationEllipsis />
+                            <PaginationEllipsis />
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationNext href="#" />
+                            <PaginationNext href="#" />
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
@@ -178,4 +189,4 @@ const adminDashboard = () => {
     );
 }
 
-export default adminDashboard
+export default adminDashboard;
