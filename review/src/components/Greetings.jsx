@@ -25,7 +25,7 @@ const Greetings = () => {
                 <CardDescription className="mt-4"> We're glad you found our school management system helpful. <br/>Your input helps us improve. Thanks for choosing us!</CardDescription>
             </CardContent>
             <CardFooter>
-                <Link to="/sign-in">
+                <Link to="/">
                     <Button>Continue</Button>
                 </Link>
             </CardFooter>

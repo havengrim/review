@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import {
@@ -20,8 +20,46 @@ import {
     PaginationPrevious,
   } from "@/components/ui/pagination"
    
+import { fetchAllEvaluations, deleteEvaluation, fetchEvaluationsBySchool }from '@/services/api';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 const adminDashboard = () => {
+    const { state } = useLocation();
+    const navigate = useNavigate();
+    const [evaluations, setEvaluations] = useState([]);
+
+    const getEvaluations = async () => {
+        const response = await fetchAllEvaluations();
+        if(response.status) {
+            setEvaluations(response.data)
+        }
+    }
+
+    useEffect(() => {
+        if(!state) {
+            navigate('/sign-in');
+        }
+        getEvaluations();
+    }, []);
+
+    const processDeleteEvaluation = async (id) => {
+        const response = await deleteEvaluation(id);
+        if(response.status) {
+            await getEvaluations();
+            alert(response.message);
+        }
+    }
+
+    const getEvaluationsBySchool = async(school) => {
+        const response = await fetchEvaluationsBySchool(school);
+        if(response.status) {
+            setEvaluations(response.data);
+        }
+        
+    }
+    
+
     return (
         <section className="container px-4 mx-auto">
             <div className="flex justify-between gap-x-3 w-full">
@@ -29,9 +67,9 @@ const adminDashboard = () => {
                     <h2 className="text-lg font-medium text-gray-800 dark:text-white">Responses</h2>
                     {/* <span className="px-3 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">100 users</span> */}
                 </div>
-                <Select>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select School" />
+                <Select onValueChange={(value) => getEvaluationsBySchool(value) }>
+                    <SelectTrigger className="w-[180px]"  >
+                        <SelectValue placeholder="Select School"/>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -48,7 +86,7 @@ const adminDashboard = () => {
                             <SelectItem value="EDSCI">Escuela de Sophia of Caloocan, Inc. - EDSCI</SelectItem>
                         </SelectGroup>
                     </SelectContent>
-                    </Select>
+                </Select>
             </div>
 
             <div className="flex flex-col mt-6">
@@ -64,7 +102,6 @@ const adminDashboard = () => {
                                             </div>
                                         </th>
 
-
                                         <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Position</th>
                                         <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">School</th>
                                         <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Total Average</th>
@@ -72,93 +109,45 @@ const adminDashboard = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                    <tr>
-                                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <div className="inline-flex items-center gap-x-3">  
-                                                <h2 className="font-medium text-gray-800 dark:text-white ">John Doe</h2>
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Developer</td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">NDKC</td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                            <div className="flex items-center gap-x-2">
-                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">25.5</p>
-                                                {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
-                                                <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
-                                                <DeleteOutlineRoundedIcon className=' text-gray-500 cursor-pointer'  />
-                                        </td>
-                                    </tr>
                                     
-                                    <tr>
-                                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <div className="inline-flex items-center gap-x-3">  
-                                                <h2 className="font-medium text-gray-800 dark:text-white ">John Doe</h2>
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Developer</td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">NDKC</td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                            <div className="flex items-center gap-x-2">
-                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">25.5</p>
-                                                {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
-                                                <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
-                                                <DeleteOutlineRoundedIcon className=' text-gray-500 cursor-pointer'  />
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <div className="inline-flex items-center gap-x-3">  
-                                                <h2 className="font-medium text-gray-800 dark:text-white ">John Doe</h2>
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Developer</td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">NDKC</td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                            <div className="flex items-center gap-x-2">
-                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">25.5</p>
-                                                {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
-                                                <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
-                                                <DeleteOutlineRoundedIcon className=' text-gray-500 cursor-pointer'  />
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                            <div className="inline-flex items-center gap-x-3">  
-                                                <h2 className="font-medium text-gray-800 dark:text-white ">John Doe</h2>
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Developer</td>
-                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">NDKC</td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                            <div className="flex items-center gap-x-2">
-                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">25.5</p>
-                                                {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
-                                            </div>
-                                        </td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
-                                                <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
-                                                <DeleteOutlineRoundedIcon className=' text-gray-500 cursor-pointer'  />
-                                        </td>
-                                    </tr>
-
+                                    {evaluations.map(evaluation => (
+                                        <tr key={evaluation.id}>
+                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                                <div className="inline-flex items-center gap-x-3">  
+                                                    <h2 className="font-medium text-gray-800 dark:text-white ">{ evaluation.fullname }</h2>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{evaluation.position}</td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{evaluation.school}</td>
+                                            <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                <div className="flex items-center gap-x-2">
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.total_average}</p>
+                                                    {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
+                                                    <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
+                                                    <DeleteOutlineRoundedIcon onClick={() => processDeleteEvaluation(evaluation.id) } className=' text-gray-500 cursor-pointer'  />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    
+                                    { evaluations.length <= 0 &&
+                                        <tr>
+                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" colSpan={5}>
+                                                <div className="inline-flex items-center gap-x-3">  
+                                                    <h2 className="font-medium text-gray-800 dark:text-white "> No data found. </h2>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='flex justify-end mt-4'>
+            {/* <div className='flex justify-end mt-4'>
                 <Pagination>
                     <PaginationContent>
                         <PaginationItem>
@@ -183,7 +172,7 @@ const adminDashboard = () => {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
-            </div>
+            </div> */}
 
         </section>
     );
