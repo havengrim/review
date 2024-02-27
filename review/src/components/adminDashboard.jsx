@@ -33,10 +33,8 @@ import {
 
 const TableToPrint = forwardRef(({ isOpen, onClose }, ref) => {
 
-    const componentRef = useRef();
-
     const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
+        content: () => ref.current,
     });
 
     return (
@@ -56,11 +54,7 @@ const TableToPrint = forwardRef(({ isOpen, onClose }, ref) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                 <tr>
-                    <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <div className="inline-flex items-center gap-x-3">  
-                            <h2 className="font-medium text-gray-800 dark:text-white ">John Doe</h2>
-                        </div>
-                    </td>
+                    <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">John Doe</td>
                     <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Developer</td>
                     <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">NDKC</td>
                     <td className="px-4 py-4 text-sm whitespace-nowrap">
@@ -74,26 +68,40 @@ const TableToPrint = forwardRef(({ isOpen, onClose }, ref) => {
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>Summary Response</DialogTitle>
-                                    <DialogDescription>
-                                    <TableToPrint ref={componentRef} />
-                                    </DialogDescription>
                                 </DialogHeader>
-                                <div className="flex gap-3 p-4">
-                                    <button onClick={onClose} className="text-gray-500 cursor-pointer focus:outline-none">
-                                        Close
-                                    </button>
-                                    <button onClick={handlePrint} className="text-gray-500 cursor-pointer focus:outline-none">
-                                        <span className="sr-only">Export as PDF</span>
-                                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" d="M17 14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3V3a1 1 0 1 1 2 0v1h4V3a1 1 0 1 1 2 0v1h3a2 2 0 0 1 2 2v8zM7 5V3h6v2H7z" clipRule="evenodd"></path>
-                                        </svg>
-                                    </button>
-                                </div>
+                                <table ref={ref} className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead className="bg-gray-50 dark:bg-gray-800">
+                                        
+                                        <tr>
+                                            <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                <div className="flex items-center gap-x-3">
+                                                    <span>Name</span>
+                                                </div>
+                                            </th>
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Position</th>
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">School</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                        <tr>
+                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">John Doe</td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Developer</td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">NDKC</td>
+                                            <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                <div className="flex items-center gap-x-2">
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">25.5</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {/* Add more rows as needed */}
+                                    </tbody>
+                                </table>
                             </DialogContent>
                         </Dialog>
                         <DeleteOutlineRoundedIcon className=' text-gray-500 cursor-pointer'  />
                     </td>
                 </tr>
+                {/* Add more rows as needed */}
             </tbody>
         </table>
     );
