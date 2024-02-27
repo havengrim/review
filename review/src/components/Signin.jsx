@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { hero } from "../assets";
 import { Button } from './ui/button';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
+import { Input } from './ui/input';
 
 const Signin = () => {
+    const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const login = () => {
+        if(username == 'admin@admin.com' && password == 'password321') {
+            navigate('/dashboard', { state : {
+                isloggedIn : true
+            }});
+        } else {
+            alert('Invalid Credentials! Please try again');
+        }
+    }
+
     return (
         <section className="bg-gray-100 dark:bg-gray-900">
             <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
@@ -21,7 +36,12 @@ const Signin = () => {
                             </svg>
                         </span>
 
-                        <input type="name" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Name" />
+                        <Input type="name" 
+                                className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" 
+                                placeholder="Userame"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}  
+                        />
                     </div>
 
                     <div className="relative flex items-center mt-4">
@@ -31,13 +51,18 @@ const Signin = () => {
                             </svg>
                         </span>
 
-                        <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
+                        <Input type="password"  
+                                className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" 
+                                placeholder="Password" 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}  
+                                />
                     </div>
 
                     <div className="mt-6">
-                        <Link to='/dashboard'>
-                            <Button className=' bg-blue-500 w-full'>Sign in</Button>
-                        </Link>
+                        {/* <Link to='/dashboard'> */}
+                            <Button onClick={login} className=' bg-blue-500 w-full'>Sign in</Button>
+                        {/* </Link> */}
                     </div>
                 </form>
             </div>

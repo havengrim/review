@@ -29,19 +29,19 @@ const Table = () => {
         </thead>
         <tbody>
           {data.map(item => (
-            <tr key={item.id} className="bg-white dark:bg-gray-800">
+            <tr key={item.question_id} className="bg-white dark:bg-gray-800">
               <th scope="row" className="px-6 py-4">
                 <h4 className='font-semibold text-[18px]  text-black whitespace-nowrap dark:text-white'>{item.question}</h4>
                 <p className={`text-[14px] ${styles.paragraph}`}>{item.description}</p>
               </th>
               {[1, 2, 3, 4, 5].map(rating => (
-                <td key={`${item.id}_${rating}`} className="px-6 py-4">
+                <td key={`${item.question_id}_${rating}`} className="px-6 py-4">
                   <input
                     type="radio"
-                    name={`rating_${item.id}`} // Unique name for each question
+                    name={`rating_${item.question_id}`} // Unique name for each question
                     value={rating}
-                    checked={ratings[item.id] === rating}
-                    onChange={() => handleRatingChange(item.id, rating)}
+                    checked={ratings[item.question_id] === rating}
+                    onChange={() => handleRatingChange(item.question_id, rating)}
                   />
                 </td>
               ))}
