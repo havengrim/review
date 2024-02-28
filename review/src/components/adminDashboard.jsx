@@ -2,6 +2,7 @@ import React, { useState, useEffect,useRef } from 'react'
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { useReactToPrint } from 'react-to-print'; // Import useReactToPrint hook
+import { Toaster, toast } from 'sonner';
 
 import {
     Select,
@@ -25,6 +26,18 @@ import {
 import { fetchAllEvaluations, deleteEvaluation, fetchEvaluationsBySchool }from '@/services/api';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
+
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
 
 
 const adminDashboard = () => {
@@ -51,7 +64,7 @@ const adminDashboard = () => {
         const response = await deleteEvaluation(id);
         if(response.status) {
             await getEvaluations();
-            alert(response.message);
+            toast.success(response.message);
         }
     }
 
@@ -138,7 +151,27 @@ const adminDashboard = () => {
                                                 <Link to="/summary">
                                                     <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
                                                 </Link>
-                                                    <DeleteOutlineRoundedIcon onClick={() => processDeleteEvaluation(evaluation.id) } className=' text-gray-500 cursor-pointer'  />
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                    <DeleteOutlineRoundedIcon className=' text-gray-500 cursor-pointer'  />
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This action cannot be undone. This will permanently delete your
+                                                            response and remove your data from our servers.
+                                                        </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                        <AlertDialogAction onClick={() => processDeleteEvaluation(evaluation.id) }>Continue</AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                    </AlertDialog>
+
+
+                                                    {/* <DeleteOutlineRoundedIcon onClick={() => processDeleteEvaluation(evaluation.id) } className=' text-gray-500 cursor-pointer'  /> */}
                                             </td>
                                         </tr>
                                     ))}
@@ -184,7 +217,7 @@ const adminDashboard = () => {
                     </PaginationContent>
                 </Pagination>
             </div> */}
-
+            <Toaster richColors position="top-right"/>
         </section>
     );
 }
