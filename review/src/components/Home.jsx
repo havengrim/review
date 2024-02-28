@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Toaster, toast } from 'sonner';
-import { Link, useLocation, useNavigate  } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Textarea } from "@/components/ui/textarea"
+
 import {
     Card,
     CardContent,
@@ -10,109 +12,152 @@ import {
 } from "@/components/ui/card";
 import { Button } from './ui/button';
 import RestartAltTwoToneIcon from '@mui/icons-material/RestartAltTwoTone';
-import {
-    customer
-} from './questions'
+import { customer } from './questions'
 
 import styles, { layout } from "../style";
 
-const Home = () => {
-    const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
-    const [loading, setLoading] = useState(false);
-
-    // State to manage answers
-    const [answers, setAnswers] = useState(Array(customer.length).fill(null));
-
-    // Function to handle radio button change
-    const handleRadioChange = (cardIndex, answerIndex, value) => {
-        // Create a new copy of answers array
-        const newAnswers = [...answers];
-        // Update the value of the selected answer for the corresponding cardIndex
-        newAnswers[cardIndex] = value;
-        // Set the state with the updated answers array
-        setAnswers(newAnswers);
-    };
-
-    // Function to handle restart icon click
-    const handleRestart = () => {
-        // Reset all answers to null
-        setAnswers(Array(customer.length).fill(null));
-    };
-
-    const canProceed = !answers.includes(null);
-
-    const handleNextClick = (event) => {
-        if (!canProceed) {
-            event.preventDefault();
-            toast.error('Please fill out all the forms');
-        }
-    };
-
-    return (
-        <section className={`${layout.section} ${styles.flexCenter}  ${styles.paddingY} ${styles.paddingX}`}>
-            <div className={`flex flex-col`}>
-                <h4 className={`${styles.heading2}`}>Customer Evaluation Form</h4>
-                <p className={`${styles.paragraph}`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
-                <div className={`${styles.marginY} flex gap-3 flex-col`}>
-                    {customer.map((item, cardIndex) => (
-                        <Card key={item.question_id} className=" border border-t-[20px] cursor-pointer ">
-                            <CardHeader>
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <CardTitle>{item.question}</CardTitle>
-                                        <CardDescription className="mt-2">{item.description}</CardDescription>
-                                    </div>
-                                    <div className="justify-end hidden sm:block">
-                                    <item.icon fontSize="large" className="mt-4 text-gray-500" />
-                                     </div>
-                                </div>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex justify-between flex-col gap-3">
-                                    {ratings.map((rating, ratingIndex) => (
-                                        <div key={ratingIndex} className="flex gap-2 items-center">
-                                            <input
-                                                type="radio"
-                                                value={ratingIndex + 1}
-                                                className="w-5 h-5 cursor-pointer"
-                                                name={`rating-${cardIndex}`} // Ensure unique name for each card
-                                                checked={answers[cardIndex] === ratingIndex + 1}
-                                                onChange={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)}
-                                            />
-                                            <label 
-                                              className="font-semibold cursor-pointer" 
-                                              htmlFor={`rating-${cardIndex}`} // Associate the label with the corresponding radio button
-                                              onClick={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)} // Handle click event to update radio button
-                                          >
-                                              {rating}
-                                          </label>
-                                        </div>
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                    <div className="flex justify-between">
-                      <div className='flex gap-2'>
-                          <Link to="/index">
-                            <Button className="bg-red-400">Back</Button>              
-                          </Link>
-                          <Link to="/greetings" onClick={handleNextClick}>
-                            <Button disabled={!canProceed}>Submit</Button>
-                          </Link>
-                      </div>
-                      <div>
-                            <Toaster richColors position="top-right" />
-                        </div>
-                        <RestartAltTwoToneIcon className="cursor-pointer" onClick={handleRestart} />
-                    </div>
-                </div>
+const SkeletonLoader = () => (
+  <div className='w-full'>
+    {/* Placeholder for cards */}
+    {[...Array(customer.length)].map((_, index) => (
+      <Card key={index} className="animate-pulse border border-t-[20px] cursor-pointer">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <div></div>
+            <div className="justify-end hidden sm:block">
+              {/* Placeholder for icon */}
+              <div className="animate-pulse w-6 h-6 bg-gray-300 rounded-full"></div>
             </div>
-        </section>
-    )
+          </div>
+        </CardHeader>
+        <CardContent>
+          {/* Placeholder for content */}
+          <div className="animate-pulse w-full h-8 bg-gray-300 rounded"></div>
+          <div className="animate-pulse w-full h-8 bg-gray-300 rounded mt-2"></div>
+          <div className="animate-pulse w-full h-8 bg-gray-300 rounded mt-2"></div>
+          <div className="animate-pulse w-full h-8 bg-gray-300 rounded mt-2"></div>
+          <div className="animate-pulse w-full h-8 bg-gray-300 rounded mt-2"></div>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+);
+
+const Home = () => {
+  const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+  const [loading, setLoading] = useState(true);
+  const [answers, setAnswers] = useState(Array(customer.length).fill(null));
+
+  useEffect(() => {
+    // Simulate data loading delay
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleRadioChange = (cardIndex, answerIndex, value) => {
+    const newAnswers = [...answers];
+    newAnswers[cardIndex] = value;
+    setAnswers(newAnswers);
+  };
+
+  const handleRestart = () => {
+    setAnswers(Array(customer.length).fill(null));
+  };
+
+  const canProceed = !answers.includes(null);
+
+  const handleNextClick = (event) => {
+    if (!canProceed) {
+      event.preventDefault();
+      toast.error('Please fill out all the forms');
+    }
+  };
+
+  return (
+    <section className={`${layout.section} ${styles.flexCenter}  ${styles.paddingY} ${styles.paddingX}`}>
+      {loading ? (
+        <SkeletonLoader />
+      ) : (
+        <div className={`flex flex-col`}>
+          <h4 className={`${styles.heading2}`}>Customer Evaluation Form</h4>
+          <p className={`${styles.paragraph}`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
+          <div className={`${styles.marginY} flex gap-3 flex-col`}>
+            {customer.map((item, cardIndex) => (
+              <Card key={item.question_id} className=" border border-t-[20px] cursor-pointer ">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <CardTitle>{item.question}</CardTitle>
+                      <CardDescription className="mt-2">{item.description}</CardDescription>
+                    </div>
+                    <div className="justify-end hidden sm:block">
+                      <item.icon fontSize="large" className="mt-4 text-gray-500" />
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between flex-col gap-3">
+                    {ratings.map((rating, ratingIndex) => (
+                      <div key={ratingIndex} className="flex gap-2 items-center">
+                        <input
+                          type="radio"
+                          value={ratingIndex + 1}
+                          className="w-5 h-5 cursor-pointer"
+                          name={`rating-${cardIndex}`} // Ensure unique name for each card
+                          checked={answers[cardIndex] === ratingIndex + 1}
+                          onChange={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)}
+                        />
+                        <label 
+                          className="font-semibold cursor-pointer" 
+                          htmlFor={`rating-${cardIndex}`} // Associate the label with the corresponding radio button
+                          onClick={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)} // Handle click event to update radio button
+                        >
+                          {rating}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+
+            <Card>
+              <CardHeader>
+                <CardTitle>How does the Academe School Management System help you?</CardTitle>
+                <CardDescription>Please provide your feedback and experiences.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Textarea placeholder="Type your message here." />
+              </CardContent>
+            </Card>
+
+            <div className="flex justify-between">
+              <div className='flex gap-2'>
+                <Link to="/index">
+                  <Button className="bg-red-400">Back</Button>              
+                </Link>
+                <Link to="/greetings" onClick={handleNextClick}>
+                  <Button disabled={!canProceed}>Submit</Button>
+                </Link>
+              </div>
+              <div>
+                <Toaster richColors position="top-right" />
+              </div>
+              <RestartAltTwoToneIcon className="cursor-pointer" onClick={handleRestart} />
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  )
 }
 
 export default Home;
+
+
 
 
 

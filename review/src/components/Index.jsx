@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Toaster, toast } from 'sonner';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Textarea } from "@/components/ui/textarea"
 
 import {
     Card,
@@ -87,15 +86,7 @@ const Index = () => {
                             </CardContent>
                         </Card>
                     ))}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>How does the Academe School Management System help you?</CardTitle>
-                                    <CardDescription>Please provide your feedback and experiences.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                <Textarea placeholder="Type your message here." />
-                                </CardContent>
-                            </Card>
+
 
                     <div className="flex justify-between">
                         <Link to="/home" onClick={handleNextClick}>

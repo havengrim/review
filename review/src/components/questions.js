@@ -10,6 +10,13 @@ import AnalyticsTwoToneIcon from '@mui/icons-material/AnalyticsTwoTone';
 import ViewCarouselTwoToneIcon from '@mui/icons-material/ViewCarouselTwoTone';
 import MobileFriendlyTwoToneIcon from '@mui/icons-material/MobileFriendlyTwoTone';
 import DevicesOtherTwoToneIcon from '@mui/icons-material/DevicesOtherTwoTone';
+import StreamTwoToneIcon from '@mui/icons-material/StreamTwoTone';
+import QuickreplyTwoToneIcon from '@mui/icons-material/QuickreplyTwoTone';
+import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import BackupTableTwoToneIcon from '@mui/icons-material/BackupTableTwoTone';
+import ForumTwoToneIcon from '@mui/icons-material/ForumTwoTone';
+import EventAvailableTwoToneIcon from '@mui/icons-material/EventAvailableTwoTone';
+import AccessTimeTwoToneIcon from '@mui/icons-material/AccessTimeTwoTone';
 
 export const data = [
     { 
@@ -74,42 +81,42 @@ export const customer = [
         question: "Expertise",
         description: "Knowledge in addressing technical and functional issues, Ability to provide effective solutions",
         question_id : 'expertise',
-        icon: DevicesOtherTwoToneIcon,
+        icon: StreamTwoToneIcon,
     },
     { 
         question: "Communication",
         description: "Clear and user-friendly communication",
         question_id : 'communication',
-        icon: DevicesOtherTwoToneIcon,
+        icon: QuickreplyTwoToneIcon,
     },
     { 
         question: "Documentation",
         description: "Availability of comprehensive documentation and knowledge base resources",
         question_id : 'documentation',
-        icon: DevicesOtherTwoToneIcon,
+        icon: DescriptionTwoToneIcon,
     },
     { 
         question: "Training Resources",
         description: "Availability of training materials, webinars, tutorials to help users become proficient",
         question_id : 'training_resources',
-        icon: DevicesOtherTwoToneIcon,
+        icon: BackupTableTwoToneIcon,
     },
     { 
         question: "User Feedback Handling",
         description: "Actively gathering and incorporating user feedback",
         question_id : 'user_feedback_handling',
-        icon: DevicesOtherTwoToneIcon,
+        icon: ForumTwoToneIcon,
     },
     { 
         question: "Availability",
         description: "Clearly defined working hours and support availability",
         question_id : 'availability',
-        icon: DevicesOtherTwoToneIcon,
+        icon: EventAvailableTwoToneIcon ,
     },
     { 
         question: "Resolution Time",
         description: "Average time taken to resolve issues",
         question_id : 'resolution_time',
-        icon: DevicesOtherTwoToneIcon,
+        icon: AccessTimeTwoToneIcon,
     },
 ]
