@@ -62,5 +62,4 @@ export {
     fetchEvaluationsBySchool,
     submitEvaluation,
     deleteEvaluation,
-    
 };
