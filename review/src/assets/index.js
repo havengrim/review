@@ -6,6 +6,8 @@ import message from "./messag.png";
 import review from "./system-review.jpg";
 import background from "./background.png"
 import hero from "./hero-logo.png"
+import goCloud from "./Logo_GoCloud.png"
+import cloud from "./logo.png";
 
 export {
   logo,
@@ -15,4 +17,6 @@ export {
   review,
   background,
   hero,
+  goCloud,
+  cloud
 };

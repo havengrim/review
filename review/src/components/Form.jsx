@@ -69,7 +69,7 @@ function Form() {
         <div className="mt-4">
           <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="position">School</Label>
-                <Input type="position" id="position" placeholder="Notre Dame of Kidapawan College" value={school} disabled/>
+                <Input type="position" id="position" placeholder="Notre Dame of Kidapawan College" value="Notre Dame of Kidapawan College" disabled/>
           </div>
         </div>
 

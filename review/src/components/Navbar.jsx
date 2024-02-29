@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { hero } from "../assets";
+import { cloud } from "../assets";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,12 +9,12 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="relative bg-white shadow dark:bg-gray-800 w-full h-[70px] border-0">
+        <nav className="relative bg-white shadow dark:bg-gray-800 w-full h-[50px] sm:h-[70px] border-0">
             <div className="container px-6 py-4 mx-auto">
                 <div className="lg:flex lg:items-center lg:justify-between">
                     <div className="flex items-center justify-between">
                         <a href="#" className='lg:hidden block'>
-                            <img className="w-auto h-6 sm:h-7" src={hero} alt="logo" />
+                            <img className="w-auto h-6 sm:h-7" src={cloud} alt="logo" />
                         </a>
 
                         {/* Mobile menu button */}
