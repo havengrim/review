@@ -6,6 +6,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { hero } from "../assets";
 import { Link, useNavigate } from 'react-router-dom'; 
+import { Toaster, toast } from 'sonner';
 
 function Form() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function Form() {
 
   const clickSubmitButton = () => {
     if(name == '' || position == '') {
-      alert('Please fill up the form properly');
+      toast.error('Please fill out all the forms');
     } else {
       navigate('/index', {
         state : { 
@@ -31,6 +32,7 @@ function Form() {
 
   return (
     <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX} h-[100vh] bg-gray-100 `}>
+          <Toaster richColors position="top-right"/>
         <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
       <div className="hidden bg-cover lg:block lg:w-1/2" style={{backgroundImage: `url(${background})`}}></div>
 
@@ -67,7 +69,7 @@ function Form() {
         <div className="mt-4">
           <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="position">School</Label>
-                <Input type="position" id="position" placeholder="NDKC" value={school} disabled/>
+                <Input type="position" id="position" placeholder="Notre Dame of Kidapawan College" value="Notre Dame of Kidapawan College" disabled/>
           </div>
         </div>
 
