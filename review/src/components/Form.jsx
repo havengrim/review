@@ -27,7 +27,6 @@ function Form() {
         school : school
       };
       const response = await checkEvaluator(evaluatorData);
-      console.log(response);
       if(response.status) {
         toast.error(response.message);
       } else {
@@ -49,12 +48,9 @@ function Form() {
     if(schoolInfo) {
       setSchool(schoolInfo.school_code.toUpperCase());
     } else {
-      // navigate('/404_not_')
-  
+      navigate('/404')
     }
-  })
-
-
+  }, [])
 
   return (
     <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX} h-[100vh] bg-gray-100 `}>

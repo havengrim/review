@@ -18,8 +18,9 @@ const Index = () => {
     const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
 
     const [answers, setAnswers] = useState(Array(data.length).fill(null));
-
-    const handleRadioChange = (cardIndex, answerIndex, value) => {
+    const navigate = useNavigate();
+    const { state } = useLocation();
+    const handleRadioChange = (cardIndex, value) => {
         const newAnswers = [...answers];
         newAnswers[cardIndex] = value;
         setAnswers(newAnswers);
@@ -35,6 +36,20 @@ const Index = () => {
         if (!canProceed) {
             event.preventDefault();
             toast.error('Please fill out all the forms');
+        } else {
+            let school_evaluation = {
+                total_score : 0
+            };
+            data.map((item, index) => {
+                school_evaluation[item.question_id] = answers[index];
+                school_evaluation.total_score += answers[index];
+            });
+            navigate("/home", {
+                state: {
+                    evaluator: state.evaluator,
+                    school_evaluation: school_evaluation
+                }
+            });
         }
     };
 
@@ -67,13 +82,13 @@ const Index = () => {
                                                 className="w-5 h-5 cursor-pointer"
                                                 name={`rating-${cardIndex}`}
                                                 checked={answers[cardIndex] === ratingIndex + 1}
-                                                onChange={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)}
+                                                onChange={() => handleRadioChange(cardIndex, ratingIndex + 1)}
                                             />
                                            <label 
                                               className="font-semibold cursor-pointer" 
                                               htmlFor={`rating-${cardIndex}`} 
-                                              onClick={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)} 
-                                          >
+                                              onClick={() => handleRadioChange(cardIndex, ratingIndex + 1)} 
+                                            >
                                               {rating}
                                           </label>
                                         </div>
@@ -85,9 +100,9 @@ const Index = () => {
 
 
                     <div className="flex justify-between">
-                        <Link to="/home" onClick={handleNextClick}>
-                            <Button disabled={!canProceed}>Next</Button>
-                        </Link>
+                        {/* <Link to="/home" > */}
+                            <Button onClick={handleNextClick} disabled={!canProceed}>Next</Button>
+                        {/* </Link> */}
                         <div>
                             <Toaster richColors position="top-right"/>
                         </div>
