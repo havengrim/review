@@ -1,33 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles, { layout } from "../style";
 import { background } from '../assets'; // Assuming you have your image imported correctly
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { hero } from "../assets";
-import { Link, useNavigate } from 'react-router-dom'; 
+import { Link, useNavigate, useParams } from 'react-router-dom'; 
+import { checkEvaluator } from '@/services/api';
+import { Toaster, toast } from 'sonner';
+import { getSchoolInfo } from '@/services/helper';
 
 function Form() {
   const navigate = useNavigate();
+  const { schoolCode } = useParams();
   const [ name, setName ] = useState('');
   const [ position, setPosition ] = useState('');
-  const [ school ] = useState('NDKC');
+  const [ school, setSchool ] = useState('NDKC');
 
-  const clickSubmitButton = () => {
+  const clickSubmitButton = async () => {
     if(name == '' || position == '') {
-      alert('Please fill up the form properly');
+      toast.error('Please fill up the form properly');
     } else {
-      navigate('/index', {
-        state : { 
-          evaluator : {
-            'fullname' : name,
-            'position' : position,
-            'school' : school
+      const evaluatorData = {
+        fullname : name,
+        position : position,
+        school : school
+      };
+      const response = await checkEvaluator(evaluatorData);
+      console.log(response);
+      if(response.status) {
+        toast.error(response.message);
+      } else {
+        navigate('/index', {
+          state : { 
+            evaluator : {
+              'fullname' : name,
+              'position' : position,
+              'school' : school
+            }
           }
-        }
-      })
+        })
+      }     
     }
   }
+
+  useEffect(() => {
+    const schoolInfo = getSchoolInfo(schoolCode);
+    if(schoolInfo) {
+      setSchool(schoolInfo.school_code.toUpperCase());
+    } else {
+      // navigate('/404_not_')
+  
+    }
+  })
+
+
 
   return (
     <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX} h-[100vh] bg-gray-100 `}>
@@ -67,7 +94,7 @@ function Form() {
         <div className="mt-4">
           <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="position">School</Label>
-                <Input type="position" id="position" placeholder="NDKC" value={school} disabled/>
+                <Input type="position" id="position" placeholder={school} value={school} disabled/>
           </div>
         </div>
 
@@ -84,6 +111,7 @@ function Form() {
         </div>
       </div>
     </div>
+    <Toaster richColors position="top-center"/>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Toaster, toast } from 'sonner';
 import { hero } from "../assets";
 import { Button } from './ui/button';
 import { Link, useNavigate } from 'react-router-dom'; 
@@ -15,12 +16,13 @@ const Signin = () => {
                 isloggedIn : true
             }});
         } else {
-            alert('Invalid Credentials! Please try again');
+            toast.error('Invalid Credentials! Please try again');
         }
     }
 
     return (
         <section className="bg-gray-100 dark:bg-gray-900">
+             <Toaster richColors position="top-right"/>
             <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
                 <form className="w-full max-w-md">
                     <div className='flex justify-center flex-col items-center w-full'>
@@ -38,7 +40,7 @@ const Signin = () => {
 
                         <Input type="name" 
                                 className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" 
-                                placeholder="Userame"
+                                placeholder="Username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}  
                         />
