@@ -71,8 +71,8 @@ const Index = () => {
                                             />
                                            <label 
                                               className="font-semibold cursor-pointer" 
-                                              htmlFor={`rating-${cardIndex}`} // Associate the label with the corresponding radio button
-                                              onClick={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)} // Handle click event to update radio button
+                                              htmlFor={`rating-${cardIndex}`} 
+                                              onClick={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)} 
                                           >
                                               {rating}
                                           </label>
