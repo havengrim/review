@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Toaster, toast } from 'sonner';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { Textarea } from "@/components/ui/textarea"
+import { background, Campuslink, globe, academe } from '../assets'; 
 
 import {
     Card,
@@ -82,8 +83,16 @@ const Home = () => {
         <SkeletonLoader />
       ) : (
         <div className={`flex flex-col`}>
-          <h4 className={`${styles.heading2}`}>Customer Evaluation Form</h4>
-          <p className={`${styles.paragraph}`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
+           <div className='flex gap-2 flex-col items-center justify-center'>
+                    {/* gci client or gocloud */}
+                    {/* <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" /> */}
+                    {/* for globe clients */}
+                    {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
+                    {/* campus link or dcc */}
+                    {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
+                    <h4 className={`${styles.heading2} text-center`}>Customer Evaluation Form</h4>
+                </div>
+          <p className={`${styles.paragraph} text-center`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
           <div className={`${styles.marginY} flex gap-3 flex-col`}>
             {customer.map((item, cardIndex) => (
               <Card key={item.question_id} className=" border border-t-[20px] cursor-pointer ">

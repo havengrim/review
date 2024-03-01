@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import styles, { layout } from "../style";
-import { background } from '../assets'; // Assuming you have your image imported correctly
+import { background, Campuslink,globe, academe } from '../assets'; 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { hero } from "../assets";
 import { Link, useNavigate } from 'react-router-dom'; 
 import { Toaster, toast } from 'sonner';
+
 
 function Form() {
   const navigate = useNavigate();
@@ -38,7 +39,11 @@ function Form() {
 
       <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
         <div className="flex justify-center mx-auto">
-          <img className="w-auto h-10 sm:h-24" src={ hero } alt="" />
+          <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+          {/* for globe clients */}
+          {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
+          {/* campus link or dcc */}
+          {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
         </div>
 
         <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
