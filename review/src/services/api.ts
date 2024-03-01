@@ -56,10 +56,21 @@ const deleteEvaluation = async (evaluationId) => {
     }
 };
 
+// 
+const checkEvaluator = async(evaluatorData) => {
+    try {
+        const response = await instance.post('api/review/check_evaluator', evaluatorData);
+        return response.data;
+    } catch (error) {
+        console.error('Error submitting evaluation:', error);
+    }
+}
+
 export {
     fetchAllEvaluations,
     fetchEvaluationInfo,
     fetchEvaluationsBySchool,
     submitEvaluation,
     deleteEvaluation,
+    checkEvaluator
 };

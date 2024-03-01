@@ -83,3 +83,58 @@ export const customer = [
         question_id : 'resolution_time'
     },
 ]
+
+
+export const schools = [
+    {
+        school_code : 'colmc',
+        school_name : 'College of Our Lady of Mt. Carmel',
+        logo : ''
+    },
+    {
+        school_code : 'ti',
+        school_name : 'Tanauan Institute Inc.',
+        logo : ''
+    },
+    {
+        school_code : 'fcb',
+        school_name : 'Febias College of Bible',
+        logo : ''
+    },
+    {
+        school_code : 'trc',
+        school_name : 'Tomas del Rosario College',
+        logo : ''
+    },
+    {
+        school_code : 'mav',
+        school_name : 'Montessori Academy of Valenzuela',
+        logo : ''
+    },
+    {
+        school_code : 'jci',
+        school_name : 'Jocson College Inc.',
+        logo : ''
+    },
+    {
+        school_code : 'ndkc',
+        school_name : 'Notre Dame of Kidapawan College',
+        logo : ''
+    },
+    {
+        school_code : 'pcpi',
+        school_name : 'Pampanga Institute / Pampanga Colleges Inc.',
+        logo : ''
+    },
+    {
+        school_code : 'stci',
+        school_name : 'Saint Tonis College, Inc.',
+        logo : ''
+    },
+    {
+        school_code : 'edsci',
+        school_name : 'Escuela de Sophia of Caloocan, Inc.',
+        logo : ''
+    }
+    
+]

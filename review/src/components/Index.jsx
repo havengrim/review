@@ -4,12 +4,14 @@ import Table from './Table';
 import { Button } from './ui/button';
 import { secondLogo } from '../assets';
 import { Link, useLocation, useNavigate } from 'react-router-dom'; // Import Link from react-router-dom
-import { data } from './questions';
+import { data } from './constants';
 
 const Home = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const [ratings, setRatings] = useState({});
+    const { school_code } = useParams();
+
 
     const handleRatingChange = (itemId, rating) => {
         setRatings(prevRatings => ({

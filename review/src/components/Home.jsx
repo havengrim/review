@@ -4,7 +4,7 @@ import styles, { layout } from "../style";
 import CustomerTable from './CustomerTable';
 import { Button } from './ui/button';
 import { logo } from '../assets';
-import { customer } from './questions'; 
+import { customer } from './constants'; 
 import { submitEvaluation } from '@/services/api';
 
 
