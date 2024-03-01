@@ -8,6 +8,7 @@ import background from "./background.png"
 import hero from "./hero-logo.png"
 import goCloud from "./Logo_GoCloud.png"
 import cloud from "./logo.png";
+import illustration from "./illustration.svg";
 
 export {
   logo,
@@ -18,5 +19,6 @@ export {
   background,
   hero,
   goCloud,
-  cloud
+  cloud,
+  illustration,
 };
