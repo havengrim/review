@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Link, useLocation, useNavigate  } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useLocation, useNavigate, useParams  } from 'react-router-dom'; // Import Link from react-router-dom
 import styles, { layout } from "../style";
 import { Button } from './ui/button';
 import { logo } from '../assets';
@@ -7,6 +7,8 @@ import { customer } from './constants';
 import { submitEvaluation } from '@/services/api';
 import { Toaster, toast } from 'sonner';
 import { Textarea } from "@/components/ui/textarea"
+import { background, Campuslink, globe, academe } from '../assets'; 
+
 import {
     Card,
     CardContent,
@@ -47,14 +49,24 @@ const Home = () => {
   const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState(Array(customer.length).fill(null));
+  const { state } = useLocation();
+  const { logo, schoolCode } = useParams();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
+    if(state?.evaluator === undefined) {
+      navigate(`/${schoolCode}/evaluation`);
+    }
+
     // Simulate data loading delay
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
 
     return () => clearTimeout(timer);
+
+    
   }, []);
 
   const handleRadioChange = (cardIndex, answerIndex, value) => {
@@ -69,10 +81,29 @@ const Home = () => {
 
   const canProceed = !answers.includes(null);
 
-  const handleNextClick = (event) => {
+  const handleNextClick = async (event) => {
     if (!canProceed) {
       event.preventDefault();
       toast.error('Please fill out all the forms');
+    } else {
+        let support_evaluation = {
+          total_score : 0
+      };
+      customer.map((item, index) => {
+          support_evaluation[item.question_id] = answers[index];
+          support_evaluation.total_score += answers[index];
+      });
+
+      const evaluationData = {
+        evaluator : state?.evaluator,
+        school_evaluation : state?.school_evaluation,
+        techsupport_evaluation : support_evaluation
+      };
+
+      const response = await submitEvaluation(evaluationData);
+      if(response.status) {
+        navigate(`/greetings/${state.evaluator.school}`);
+      }
     }
   };
 
@@ -82,8 +113,28 @@ const Home = () => {
         <SkeletonLoader />
       ) : (
         <div className={`flex flex-col`}>
-          <h4 className={`${styles.heading2}`}>Customer Evaluation Form</h4>
-          <p className={`${styles.paragraph}`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
+           <div className='flex gap-2 flex-col items-center justify-center'>
+                    {/* gci client or gocloud */}
+                    {/* <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" /> */}
+                    {/* for globe clients */}
+                    {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
+                    {/* campus link or dcc */}
+                    {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
+                      {/* gci client or gocloud */}
+                      { logo == 'gci' && (
+                        <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+                    )}
+                    {/* for globe clients */}
+                    { logo == 'globe' && (
+                        <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
+                    )}
+                    {/* campus link or dcc */}
+                    { logo == 'dcc' && (
+                     <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
+                    )}
+                    <h4 className={`${styles.heading2} text-center`}>Customer Evaluation Form</h4>
+                </div>
+          <p className={`${styles.paragraph} text-center`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
           <div className={`${styles.marginY} flex gap-3 flex-col`}>
             {customer.map((item, cardIndex) => (
               <Card key={item.question_id} className=" border border-t-[20px] cursor-pointer ">
@@ -136,12 +187,15 @@ const Home = () => {
 
             <div className="flex justify-between">
               <div className='flex gap-2'>
-                <Link to="/index">
+                  <Link to={`/${logo}/school-evaluation`} state={{
+                      evaluator : state.evaluator
+                    }
+                  }>
                   <Button className="bg-red-400">Back</Button>              
                 </Link>
-                <Link to="/greetings" onClick={handleNextClick}>
-                  <Button disabled={!canProceed}>Submit</Button>
-                </Link>
+                {/* <Link to="/greetings" > */}
+                  <Button onClick={handleNextClick} disabled={!canProceed}>Submit</Button>
+                {/* </Link> */}
               </div>
               <div>
                 <Toaster richColors position="top-right" />

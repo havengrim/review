@@ -22,7 +22,7 @@ const submitEvaluation = async (evaluationData) => {
 // Function to get evaluation info by ID
 const fetchEvaluationInfo = async (evaluationId) => {
     try {
-        const response = await instance.get(`api/review/${evaluationId}`);
+        const response = await instance.get(`api/review/evaluation_info/${evaluationId}`);
         return response.data;
     } catch (error) {
         console.error('Error getting evaluation info:', error);

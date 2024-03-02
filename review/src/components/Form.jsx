@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles, { layout } from "../style";
-import { background } from '../assets'; // Assuming you have your image imported correctly
+import { background, Campuslink,globe, academe } from '../assets'; 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -10,12 +10,17 @@ import { checkEvaluator } from '@/services/api';
 import { Toaster, toast } from 'sonner';
 import { getSchoolInfo } from '@/services/helper';
 
+
 function Form() {
   const navigate = useNavigate();
   const { schoolCode } = useParams();
   const [ name, setName ] = useState('');
   const [ position, setPosition ] = useState('');
-  const [ school, setSchool ] = useState('NDKC');
+  const [ school, setSchool ] = useState({
+    school_code : '',
+    school_name : '',
+    logo : ''
+  });
 
   const clickSubmitButton = async () => {
     if(name == '' || position == '') {
@@ -24,18 +29,19 @@ function Form() {
       const evaluatorData = {
         fullname : name,
         position : position,
-        school : school
+        school : school.school_code
       };
       const response = await checkEvaluator(evaluatorData);
       if(response.status) {
         toast.error(response.message);
       } else {
-        navigate('/index', {
+        const url =  `/${schoolCode}/${school.logo}/school-evaluation`;
+        navigate(url, {
           state : { 
             evaluator : {
               'fullname' : name,
               'position' : position,
-              'school' : school
+              'school' : school.school_code
             }
           }
         })
@@ -46,7 +52,7 @@ function Form() {
   useEffect(() => {
     const schoolInfo = getSchoolInfo(schoolCode);
     if(schoolInfo) {
-      setSchool(schoolInfo.school_code.toUpperCase());
+      setSchool(schoolInfo);
     } else {
       navigate('/404')
     }
@@ -59,7 +65,11 @@ function Form() {
 
       <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
         <div className="flex justify-center mx-auto">
-          <img className="w-auto h-10 sm:h-24" src={ hero } alt="" />
+          <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+          {/* for globe clients */}
+          {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
+          {/* campus link or dcc */}
+          {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
         </div>
 
         <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
@@ -90,7 +100,7 @@ function Form() {
         <div className="mt-4">
           <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label htmlFor="position">School</Label>
-                <Input type="position" id="position" placeholder={school} value={school} disabled/>
+                <Input type="position" id="position" placeholder={school.school_name.toUpperCase()} value={school.school_name.toUpperCase()} disabled/>
           </div>
         </div>
 

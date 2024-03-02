@@ -9,6 +9,9 @@ import hero from "./hero-logo.png"
 import goCloud from "./Logo_GoCloud.png"
 import cloud from "./logo.png";
 import illustration from "./illustration.svg";
+import Campuslink from "./Campuslink.png"
+import globe from "./globe.png";
+import academe from "./logo-academe-sms.png";
 
 export {
   logo,
@@ -21,4 +24,7 @@ export {
   goCloud,
   cloud,
   illustration,
+  Campuslink,
+  globe,
+  academe,
 };

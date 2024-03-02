@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'sonner';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { background, Campuslink, globe, academe } from '../assets'; 
+
 import {
     Card,
     CardContent,
@@ -20,6 +22,13 @@ const Index = () => {
     const [answers, setAnswers] = useState(Array(data.length).fill(null));
     const navigate = useNavigate();
     const { state } = useLocation();
+    const { schoolCode, logo } = useParams();
+
+    useEffect(() => {
+        if(state?.evaluator === undefined) {
+            navigate(`/${schoolCode}/evaluation`);
+        }
+    })
     const handleRadioChange = (cardIndex, value) => {
         const newAnswers = [...answers];
         newAnswers[cardIndex] = value;
@@ -44,9 +53,10 @@ const Index = () => {
                 school_evaluation[item.question_id] = answers[index];
                 school_evaluation.total_score += answers[index];
             });
-            navigate("/home", {
+            const url = `/${schoolCode}/${logo}/support-evaluation`;
+            navigate(url, {
                 state: {
-                    evaluator: state.evaluator,
+                    evaluator: state?.evaluator,
                     school_evaluation: school_evaluation
                 }
             });
@@ -56,8 +66,22 @@ const Index = () => {
     return (
         <section className={`${layout.section} ${styles.flexCenter}  ${styles.paddingY} ${styles.paddingX}`}>
             <div className={`flex flex-col`}>
-                <h4 className={`${styles.heading2}`}>School Management System Evaluation Form</h4>
-                <p className={`${styles.paragraph}`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
+                <div className='flex gap-2 flex-col items-center justify-center'>
+                    {/* gci client or gocloud */}
+                    { logo == 'gci' && (
+                        <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+                    )}
+                    {/* for globe clients */}
+                    { logo == 'globe' && (
+                        <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
+                    )}
+                    {/* campus link or dcc */}
+                    { logo == 'dcc' && (
+                     <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
+                    )}
+                    <h4 className={`${styles.heading2} text-center`}>School Management System Evaluation Form</h4>
+                </div>
+                <p className={`${styles.paragraph} text-center`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
                 <div className={`${styles.marginY} flex gap-3 flex-col`}>
                     {data.map((item, cardIndex) => (
                         <Card key={item.question_id} className=" border border-t-[20px] cursor-pointer ">
