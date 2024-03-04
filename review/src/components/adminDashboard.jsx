@@ -103,10 +103,15 @@ const adminDashboard = () => {
     }
 
     const getEvaluationsBySchool = async(school) => {
-        const response = await fetchEvaluationsBySchool(school);
-        if(response.status) {
-            setEvaluations(response.data);
+        if(school === 'all') {
+            getEvaluations();   
+        } else {
+            const response = await fetchEvaluationsBySchool(school);
+            if(response.status) {
+                setEvaluations(response.data);
+            }
         }
+        
     }
 
 
@@ -130,6 +135,7 @@ const adminDashboard = () => {
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Schools</SelectLabel>
+                                <SelectItem value="all">Select All</SelectItem>
                                 <SelectItem value="COLMC">College of Our Lady of Mt. Carmel - COLMC</SelectItem>
                                 <SelectItem value="TI">TANAUAN INSTITUTE INC - TI</SelectItem>
                                 <SelectItem value="FCB">FEBIAS College of Bible - FCB</SelectItem>

@@ -49,6 +49,7 @@ const Home = () => {
   const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState(Array(customer.length).fill(null));
+  const [ isProcessing, setIsProcessing ] = useState(false);
   const { state } = useLocation();
   const { logo, schoolCode } = useParams();
   const navigate = useNavigate();
@@ -79,31 +80,39 @@ const Home = () => {
     setAnswers(Array(customer.length).fill(null));
   };
 
-  const canProceed = !answers.includes(null);
+  
 
   const handleNextClick = async (event) => {
-    if (!canProceed) {
-      event.preventDefault();
-      toast.error('Please fill out all the forms');
-    } else {
+    try {
+      setIsProcessing(true);
+      const canProceed = !answers.includes(null);
+      if (!canProceed) {
+        event.preventDefault();
+        toast.error('Please fill out all the forms');
+      } else {
         let support_evaluation = {
-          total_score : 0
-      };
-      customer.map((item, index) => {
-          support_evaluation[item.question_id] = answers[index];
-          support_evaluation.total_score += answers[index];
-      });
+            total_score : 0
+        };
+        customer.map((item, index) => {
+            support_evaluation[item.question_id] = answers[index];
+            support_evaluation.total_score += answers[index];
+        });
 
-      const evaluationData = {
-        evaluator : state?.evaluator,
-        school_evaluation : state?.school_evaluation,
-        techsupport_evaluation : support_evaluation
-      };
+        const evaluationData = {
+          evaluator : state?.evaluator,
+          school_evaluation : state?.school_evaluation,
+          techsupport_evaluation : support_evaluation
+        };
 
-      const response = await submitEvaluation(evaluationData);
-      if(response.status) {
-        navigate(`/greetings/${state.evaluator.school}`);
+        const response = await submitEvaluation(evaluationData);
+        if(response.status) {
+          navigate(`/greetings/${state.evaluator.school}`);
+        }
       }
+    } catch(error) {
+      toast.error('Something went wrong. Please try again');
+    } finally{
+      setIsProcessing(false);
     }
   };
 
@@ -194,7 +203,7 @@ const Home = () => {
                   <Button className="bg-red-400">Back</Button>              
                 </Link>
                 {/* <Link to="/greetings" > */}
-                  <Button onClick={handleNextClick} disabled={!canProceed}>Submit</Button>
+                  <Button onClick={handleNextClick} disabled={isProcessing}>Submit</Button>
                 {/* </Link> */}
               </div>
               <div>

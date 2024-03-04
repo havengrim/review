@@ -21,31 +21,40 @@ function Form() {
     school_name : '',
     logo : ''
   });
+  const [ isProcessing, setIsProcessing ] = useState(false);
+
 
   const clickSubmitButton = async () => {
-    if(name == '' || position == '') {
-      toast.error('Please fill up the form properly');
-    } else {
-      const evaluatorData = {
-        fullname : name,
-        position : position,
-        school : school.school_code
-      };
-      const response = await checkEvaluator(evaluatorData);
-      if(response.status) {
-        toast.error(response.message);
+    try {
+      if(name == '' || position == '') {
+        toast.error('Please fill up the form properly');
       } else {
-        const url =  `/${schoolCode}/${school.logo}/school-evaluation`;
-        navigate(url, {
-          state : { 
-            evaluator : {
-              'fullname' : name,
-              'position' : position,
-              'school' : school.school_code
+        const evaluatorData = {
+          fullname : name,
+          position : position,
+          school : school.school_code
+        };
+        setIsProcessing(true);
+        const response = await checkEvaluator(evaluatorData);
+        if(response.status) {
+          toast.error(response.message);
+        } else {
+          const url =  `/${schoolCode}/${school.logo}/school-evaluation`;
+          navigate(url, {
+            state : { 
+              evaluator : {
+                'fullname' : name,
+                'position' : position,
+                'school' : school.school_code
+              }
             }
-          }
-        })
-      }     
+          })
+        }     
+      }
+    } catch(error) {
+      toast.error('Something went wrong. Please try again');
+    } finally {
+      setIsProcessing(false);
     }
   }
 
@@ -65,7 +74,20 @@ function Form() {
 
       <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
         <div className="flex justify-center mx-auto">
-          <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+          
+              {/* gci client or gocloud */}
+              { school?.logo == 'gci' && (
+                  <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+              )}
+              {/* for globe clients */}
+              { school?.logo == 'globe' && (
+                  <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
+              )}
+              {/* campus link or dcc */}
+              { school?.logo == 'dcc' && (
+                <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
+              )}
+          {/* <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" /> */}
           {/* for globe clients */}
           {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
           {/* campus link or dcc */}
@@ -112,7 +134,7 @@ function Form() {
               'school' : school
             }}
             > */}
-            <Button className="w-full" onClick={clickSubmitButton} type="submit">Submit</Button>
+            <Button className="w-full" onClick={clickSubmitButton} disabled={isProcessing} type="submit">Submit</Button>
           {/* </Link> */}
         </div>
       </div>
