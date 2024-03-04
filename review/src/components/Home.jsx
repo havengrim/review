@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+import { Link, useLocation, useNavigate, useParams  } from 'react-router-dom'; // Import Link from react-router-dom
+import styles, { layout } from "../style";
+import { Button } from './ui/button';
+import { logo } from '../assets';
+import { customer } from './constants'; 
+import { submitEvaluation } from '@/services/api';
 import { Toaster, toast } from 'sonner';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import { Textarea } from "@/components/ui/textarea"
 import { background, Campuslink, globe, academe } from '../assets'; 
 
@@ -11,11 +16,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Button } from './ui/button';
 import RestartAltTwoToneIcon from '@mui/icons-material/RestartAltTwoTone';
-import { customer } from './questions'
-
-import styles, { layout } from "../style";
 
 const SkeletonLoader = () => (
   <div className='w-full'>
@@ -48,14 +49,25 @@ const Home = () => {
   const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState(Array(customer.length).fill(null));
+  const [ isProcessing, setIsProcessing ] = useState(false);
+  const { state } = useLocation();
+  const { logo, schoolCode } = useParams();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
+    if(state?.evaluator === undefined) {
+      navigate(`/${schoolCode}/evaluation`);
+    }
+
     // Simulate data loading delay
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
 
     return () => clearTimeout(timer);
+
+    
   }, []);
 
   const handleRadioChange = (cardIndex, answerIndex, value) => {
@@ -68,12 +80,39 @@ const Home = () => {
     setAnswers(Array(customer.length).fill(null));
   };
 
-  const canProceed = !answers.includes(null);
+  
 
-  const handleNextClick = (event) => {
-    if (!canProceed) {
-      event.preventDefault();
-      toast.error('Please fill out all the forms');
+  const handleNextClick = async (event) => {
+    try {
+      setIsProcessing(true);
+      const canProceed = !answers.includes(null);
+      if (!canProceed) {
+        event.preventDefault();
+        toast.error('Please fill out all the forms');
+      } else {
+        let support_evaluation = {
+            total_score : 0
+        };
+        customer.map((item, index) => {
+            support_evaluation[item.question_id] = answers[index];
+            support_evaluation.total_score += answers[index];
+        });
+
+        const evaluationData = {
+          evaluator : state?.evaluator,
+          school_evaluation : state?.school_evaluation,
+          techsupport_evaluation : support_evaluation
+        };
+
+        const response = await submitEvaluation(evaluationData);
+        if(response.status) {
+          navigate(`/greetings/${state.evaluator.school}`);
+        }
+      }
+    } catch(error) {
+      toast.error('Something went wrong. Please try again');
+    } finally{
+      setIsProcessing(false);
     }
   };
 
@@ -90,6 +129,18 @@ const Home = () => {
                     {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
                     {/* campus link or dcc */}
                     {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
+                      {/* gci client or gocloud */}
+                      { logo == 'gci' && (
+                        <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+                    )}
+                    {/* for globe clients */}
+                    { logo == 'globe' && (
+                        <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
+                    )}
+                    {/* campus link or dcc */}
+                    { logo == 'dcc' && (
+                     <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
+                    )}
                     <h4 className={`${styles.heading2} text-center`}>Customer Evaluation Form</h4>
                 </div>
           <p className={`${styles.paragraph} text-center`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
@@ -145,12 +196,15 @@ const Home = () => {
 
             <div className="flex justify-between">
               <div className='flex gap-2'>
-                <Link to="/index">
+                  <Link to={`/${logo}/school-evaluation`} state={{
+                      evaluator : state.evaluator
+                    }
+                  }>
                   <Button className="bg-red-400">Back</Button>              
                 </Link>
-                <Link to="/greetings" onClick={handleNextClick}>
-                  <Button disabled={!canProceed}>Submit</Button>
-                </Link>
+                {/* <Link to="/greetings" > */}
+                  <Button onClick={handleNextClick} disabled={isProcessing}>Submit</Button>
+                {/* </Link> */}
               </div>
               <div>
                 <Toaster richColors position="top-right" />

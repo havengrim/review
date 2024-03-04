@@ -4,8 +4,9 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { useReactToPrint } from 'react-to-print'; // Import useReactToPrint hook
 import { Toaster, toast } from 'sonner';
 import {
+    customer,
     data
-} from './questions';
+} from './constants';
 
 
 import {
@@ -27,7 +28,7 @@ import {
 //     PaginationPrevious,
 //   } from "@/components/ui/pagination"
    
-import { fetchAllEvaluations, deleteEvaluation, fetchEvaluationsBySchool }from '@/services/api';
+import { fetchAllEvaluations, deleteEvaluation, fetchEvaluationsBySchool, fetchEvaluationInfo }from '@/services/api';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 
@@ -43,17 +44,46 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 
+const EvaluationDetailLoader = () => (
+    <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]"> 
+            <div className="animate-pulse w-full h-8 bg-gray-300 rounded"></div>
+    </td>
+    <td className="px-4 py-4 text-sm whitespace-nowrap">
+        <div className="flex items-center gap-x-2">
+            <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-300 bg-blue-100">
+                <div className="animate-pulse w-full h-8 bg-gray-300 rounded"></div>
+            </p>
+        </div>
+    </td></>
+)
 
 const adminDashboard = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const [evaluations, setEvaluations] = useState([]);
     const tableRef = useRef(); 
+    const [ loadingSummary, setLoadingSummary] = useState(false);
+    const [ evaluationDetail, setEvaluationDetail ] = useState({});
+    const [ selectResponseSummary, setSelectResponseSummary ] = useState('evaluation');
 
     const getEvaluations = async () => {
         const response = await fetchAllEvaluations();
         if(response.status) {
             setEvaluations(response.data)
+        }
+    }
+
+    const getEvaluationDetail = async(evaluationId) => {
+        try {
+            setLoadingSummary(true);
+            const response = await fetchEvaluationInfo(evaluationId);
+            if(response.status) {
+              setEvaluationDetail(response.data)
+            }
+        } catch(error) {
+            toast.error('Something went wrong. Please try again');
+        } finally {
+            setLoadingSummary(false)
         }
     }
 
@@ -73,17 +103,22 @@ const adminDashboard = () => {
     }
 
     const getEvaluationsBySchool = async(school) => {
-        const response = await fetchEvaluationsBySchool(school);
-        if(response.status) {
-            setEvaluations(response.data);
+        if(school === 'all') {
+            getEvaluations();   
+        } else {
+            const response = await fetchEvaluationsBySchool(school);
+            if(response.status) {
+                setEvaluations(response.data);
+            }
         }
         
     }
+
+
     const handlePrint = useReactToPrint({
         content: () => tableRef.current, // Specify the content to be printed
     });
     
-
     return (
         <section className="container px-4 mx-auto">
             <div className="flex justify-between gap-x-3 w-full">
@@ -100,6 +135,7 @@ const adminDashboard = () => {
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Schools</SelectLabel>
+                                <SelectItem value="all">Select All</SelectItem>
                                 <SelectItem value="COLMC">College of Our Lady of Mt. Carmel - COLMC</SelectItem>
                                 <SelectItem value="TI">TANAUAN INSTITUTE INC - TI</SelectItem>
                                 <SelectItem value="FCB">FEBIAS College of Bible - FCB</SelectItem>
@@ -145,16 +181,16 @@ const adminDashboard = () => {
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{evaluation.position}</td>
-                                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{evaluation.school}</td>
+                                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{evaluation.school.toUpperCase()}</td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap flex items-center justify-center">
                                                 <div className="flex items-center gap-x-2">
-                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.total_average}</p>
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.school}</p>
                                                     {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                 <div className="flex items-center gap-x-2 justify-center">
-                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.total_average}</p>
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.techsupport}</p>
                                                     {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
                                                 </div>
                                             </td>
@@ -165,13 +201,13 @@ const adminDashboard = () => {
                                                 </Link> */}
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
-                                                    <RemoveRedEyeOutlinedIcon className=' text-gray-500 cursor-pointer'/>
+                                                        <RemoveRedEyeOutlinedIcon onClick={() => getEvaluationDetail(evaluation.id) } className=' text-gray-500 cursor-pointer'/>
                                                     </AlertDialogTrigger>
                                                     <AlertDialogContent>
                                                         <AlertDialogHeader>
                                                         <AlertDialogTitle>Response Summary</AlertDialogTitle>
                                                         <AlertDialogDescription>
-                                                        <Select className="my-2">
+                                                        <Select className="my-2" onValueChange={(value) => setSelectResponseSummary(value) }>
                                                             <SelectTrigger className="w-[180px]"  >
                                                                 <SelectValue placeholder="School Evaluation"/>
                                                             </SelectTrigger>
@@ -183,48 +219,95 @@ const adminDashboard = () => {
                                                                 </SelectGroup>
                                                             </SelectContent>
                                                         </Select>
-                                                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
-                                                                <thead className="bg-gray-50 dark:bg-gray-800">
-                                                                    <tr>
-                                                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
-                                                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                                                {data.map((item, cardIndex) => (
-                                                                    <tr key={item.question_id}>
-                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{item.question}</td>
-                                                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                                                            <div className="flex items-center gap-x-2">
-                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2.5</p>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                ))}
-                                                                </tbody>
-                                                        </table>
-                                                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3 " hidden >
-                                                                <thead className="bg-gray-50 dark:bg-gray-800">
-                                                                    <tr>
-                                                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
-                                                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                                                {data.map((item, cardIndex) => (
-                                                                    <tr key={item.question_id}>
-                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{item.question}</td>
-                                                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                                                            <div className="flex items-center gap-x-2">
-                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2.5</p>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                ))}
-                                                                </tbody>
-                                                        </table>
-                                                        
-                                                        
+                                                            { selectResponseSummary === 'evaluation' && (
+                                                                <>
+                                                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
+                                                                        <thead className="bg-gray-50 dark:bg-gray-800">
+                                                                            <tr>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                            <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                                                            {data.map((item, cardIndex) => (
+                                                                                <tr key={item.question_id}>
+                                                                                    { loadingSummary ? (
+                                                                                    <EvaluationDetailLoader></EvaluationDetailLoader>
+                                                                                    ) : (
+                                                                                        <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
+                                                                                            <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                                                                <div className="flex items-center gap-x-2">
+                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.school_evaluation ? evaluationDetail?.school_evaluation[item?.question_id] : '' }</p>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </>
+                                                                                    )}
+                                                                                </tr>
+                                                                            ))}
+                                                                            
+                                                                            <tr>
+                                                                                { loadingSummary ? (
+                                                                                    <EvaluationDetailLoader></EvaluationDetailLoader>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
+                                                                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                                                            <div className="flex items-center gap-x-2">
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? evaluationDetail?.average?.school : '' }</p>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        </>
+                                                                                    )}                                                        
+                                                                            </tr>
+                                                                            </tbody>
+                                                                    </table>
+                                                                </>
+                                                            )}
+                                                            
+                                                            { selectResponseSummary === 'customer' && (
+                                                                <>
+                                                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
+                                                                        <thead className="bg-gray-50 dark:bg-gray-800">
+                                                                            <tr>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                            <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                                                            {customer.map((item, cardIndex) => (
+                                                                                <tr key={item.question_id}>
+                                                                                    { loadingSummary ? (
+                                                                                    <EvaluationDetailLoader></EvaluationDetailLoader>
+                                                                                    ) : (
+                                                                                        <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
+                                                                                            <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                                                                <div className="flex items-center gap-x-2">
+                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.techsupport_evaluation ? evaluationDetail?.techsupport_evaluation[item?.question_id] : '' }</p>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </>
+                                                                                    )}
+                                                                                </tr>
+                                                                            ))}
+                                                                            
+                                                                            <tr>
+                                                                                { loadingSummary ? (
+                                                                                    <EvaluationDetailLoader></EvaluationDetailLoader>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
+                                                                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                                                            <div className="flex items-center gap-x-2">
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? evaluationDetail?.average?.techsupport : '' }</p>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        </>
+                                                                                    )}                                                        
+                                                                            </tr>
+                                                                            </tbody>
+                                                                    </table>
+                                                                </>
+                                                            )}
                                                         
                                                         </AlertDialogDescription>
                                                         </AlertDialogHeader>
@@ -262,14 +345,14 @@ const adminDashboard = () => {
                                     
                                     { evaluations.length <= 0 &&
                                         <tr>
-                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" colSpan={5}>
+                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" colSpan={6}>
                                                 <div className="inline-flex items-center gap-x-3 justify-center">  
                                                     <h2 className="font-medium text-gray-800 dark:text-white "> No data found. </h2>
                                                 </div>
                                             </td>
                                         </tr>
                                     }
-                                    <tr>
+                                    <tr class="hidden">
                                             <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                                 <div className="inline-flex items-center gap-x-3">  
                                                     <h2 className="font-medium text-gray-800 dark:text-white ">Total</h2>

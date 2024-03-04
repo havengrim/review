@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Toaster, toast } from 'sonner';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { background, Campuslink, globe, academe } from '../assets'; 
 
 import {
@@ -11,20 +11,25 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Button } from './ui/button';
+import { secondLogo } from '../assets';
+import { data } from './constants';
 import RestartAltTwoToneIcon from '@mui/icons-material/RestartAltTwoTone';
-import {
-    data
-} from './questions';
-
-
 import styles, { layout } from "../style";
 
 const Index = () => {
     const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
 
     const [answers, setAnswers] = useState(Array(data.length).fill(null));
+    const navigate = useNavigate();
+    const { state } = useLocation();
+    const { schoolCode, logo } = useParams();
 
-    const handleRadioChange = (cardIndex, answerIndex, value) => {
+    useEffect(() => {
+        if(state?.evaluator === undefined) {
+            navigate(`/${schoolCode}/evaluation`);
+        }
+    })
+    const handleRadioChange = (cardIndex, value) => {
         const newAnswers = [...answers];
         newAnswers[cardIndex] = value;
         setAnswers(newAnswers);
@@ -40,6 +45,21 @@ const Index = () => {
         if (!canProceed) {
             event.preventDefault();
             toast.error('Please fill out all the forms');
+        } else {
+            let school_evaluation = {
+                total_score : 0
+            };
+            data.map((item, index) => {
+                school_evaluation[item.question_id] = answers[index];
+                school_evaluation.total_score += answers[index];
+            });
+            const url = `/${schoolCode}/${logo}/support-evaluation`;
+            navigate(url, {
+                state: {
+                    evaluator: state?.evaluator,
+                    school_evaluation: school_evaluation
+                }
+            });
         }
     };
 
@@ -48,11 +68,17 @@ const Index = () => {
             <div className={`flex flex-col`}>
                 <div className='flex gap-2 flex-col items-center justify-center'>
                     {/* gci client or gocloud */}
-                    {/* <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" /> */}
+                    { logo == 'gci' && (
+                        <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+                    )}
                     {/* for globe clients */}
-                    {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
+                    { logo == 'globe' && (
+                        <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
+                    )}
                     {/* campus link or dcc */}
-                    {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
+                    { logo == 'dcc' && (
+                     <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
+                    )}
                     <h4 className={`${styles.heading2} text-center`}>School Management System Evaluation Form</h4>
                 </div>
                 <p className={`${styles.paragraph} text-center`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
@@ -80,13 +106,13 @@ const Index = () => {
                                                 className="w-5 h-5 cursor-pointer"
                                                 name={`rating-${cardIndex}`}
                                                 checked={answers[cardIndex] === ratingIndex + 1}
-                                                onChange={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)}
+                                                onChange={() => handleRadioChange(cardIndex, ratingIndex + 1)}
                                             />
                                            <label 
                                               className="font-semibold cursor-pointer" 
                                               htmlFor={`rating-${cardIndex}`} 
-                                              onClick={() => handleRadioChange(cardIndex, ratingIndex, ratingIndex + 1)} 
-                                          >
+                                              onClick={() => handleRadioChange(cardIndex, ratingIndex + 1)} 
+                                            >
                                               {rating}
                                           </label>
                                         </div>
@@ -98,9 +124,9 @@ const Index = () => {
 
 
                     <div className="flex justify-between">
-                        <Link to="/home" onClick={handleNextClick}>
-                            <Button disabled={!canProceed}>Next</Button>
-                        </Link>
+                        {/* <Link to="/home" > */}
+                            <Button onClick={handleNextClick} disabled={!canProceed}>Next</Button>
+                        {/* </Link> */}
                         <div>
                             <Toaster richColors position="top-right"/>
                         </div>

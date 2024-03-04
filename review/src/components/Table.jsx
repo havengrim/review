@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../style';
-import { data } from './questions'; 
+import { data } from './constants'; 
 
 const Table = () => {
   // State to store ratings for each question

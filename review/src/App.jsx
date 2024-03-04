@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import styles from "./style";
 import Home from "./components/Home";
 import Index from "./components/Index";
@@ -17,10 +17,11 @@ const App = () => (
         <Route path="/404" element={<NotFoundPage />} /> 
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/sign-in" element={<Signin />} /> 
-        <Route path="/greetings" element={<Greetings />} /> 
-        <Route path="/home" element={<Home />} /> 
-        <Route path="/index" element={<Index />} /> 
-        <Route path="/" element={<Form />} /> 
+        <Route path="/greetings/:schoolCode" element={<Greetings />} /> 
+        <Route path="/:schoolCode/:logo/support-evaluation" element={<Home />} /> 
+        <Route path="/:schoolCode/:logo/school-evaluation" element={<Index />} /> 
+        <Route path="/:schoolCode/evaluation" element={<Form />} /> 
+        <Route path='*' element={<Navigate to='/404' />} />
       </Routes>
     </div>
   </Router>

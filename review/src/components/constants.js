@@ -120,3 +120,58 @@ export const customer = [
         icon: AccessTimeTwoToneIcon,
     },
 ]
+
+
+export const schools = [
+    {
+        school_code : 'colmc',
+        school_name : 'College of Our Lady of Mt. Carmel',
+        logo : 'gci'
+    },
+    {
+        school_code : 'ti',
+        school_name : 'Tanauan Institute Inc.',
+        logo : 'gci'
+    },
+    {
+        school_code : 'fcb',
+        school_name : 'Febias College of Bible',
+        logo : 'globe'
+    },
+    {
+        school_code : 'trc',
+        school_name : 'Tomas del Rosario College',
+        logo : 'gci'
+    },
+    {
+        school_code : 'mav',
+        school_name : 'Montessori Academy of Valenzuela',
+        logo : 'gci'
+    },
+    {
+        school_code : 'jci',
+        school_name : 'Jocson College Inc.',
+        logo : 'gci'
+    },
+    {
+        school_code : 'ndkc',
+        school_name : 'Notre Dame of Kidapawan College',
+        logo : 'globe'
+    },
+    {
+        school_code : 'pcpi',
+        school_name : 'Pampanga Institute / Pampanga Colleges Inc.',
+        logo : 'gci'
+    },
+    {
+        school_code : 'stci',
+        school_name : 'Saint Tonis College, Inc.',
+        logo : 'gci'
+    },
+    {
+        school_code : 'edsci',
+        school_name : 'Escuela de Sophia of Caloocan, Inc.',
+        logo : 'dcc'
+    }
+
+]

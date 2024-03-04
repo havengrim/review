@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import { message } from "@/assets";
@@ -24,21 +24,19 @@ const SkeletonLoader = () => (
 
 const Greetings = () => {
   const [loading, setLoading] = useState(true);
+  const { schoolCode } = useParams();
 
   useEffect(() => {
     // Simulate data loading delay
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    // const timer = setTimeout(() => {
+    //   setLoading(false);
+    // }, 2000);
 
-    return () => clearTimeout(timer);
+    // return () => clearTimeout(timer);
   }, []);
 
   return (
     <>
-      {loading ? (
-        <SkeletonLoader />
-      ) : (
         <div className={`${layout.section} ${styles.flexCenter} ${styles.paddingY} ${styles.paddingX} h-[100vh] bg-gray-100 `}>
           <Card className={`${styles.flexCenter} flex-col text-center`}>
             <CardHeader>
@@ -49,13 +47,12 @@ const Greetings = () => {
               <CardDescription className="mt-4"> We're glad you found our school management system helpful. <br />Your input helps us improve. Thanks for choosing us!</CardDescription>
             </CardContent>
             <CardFooter>
-              <Link to="/">
+              <Link to={`/${schoolCode}/evaluation`}>
                 <Button>Continue</Button>
               </Link>
             </CardFooter>
           </Card>
         </div>
-      )}
     </>
   )
 }
