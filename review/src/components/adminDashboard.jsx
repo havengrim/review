@@ -1,6 +1,7 @@
 import React, { useState, useEffect,useRef } from 'react'
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import LocalPrintshopTwoToneIcon from '@mui/icons-material/LocalPrintshopTwoTone';
 import { useReactToPrint } from 'react-to-print'; // Import useReactToPrint hook
 import { Toaster, toast } from 'sonner';
 import {
@@ -62,6 +63,8 @@ const adminDashboard = () => {
     const navigate = useNavigate();
     const [evaluations, setEvaluations] = useState([]);
     const tableRef = useRef(); 
+    const systemRef = useRef();
+    const evaluationRef = useRef();
     const [ loadingSummary, setLoadingSummary] = useState(false);
     const [ evaluationDetail, setEvaluationDetail ] = useState({});
     const [ selectResponseSummary, setSelectResponseSummary ] = useState('evaluation');
@@ -118,6 +121,13 @@ const adminDashboard = () => {
     const handlePrint = useReactToPrint({
         content: () => tableRef.current, // Specify the content to be printed
     });
+    const systemPrint = useReactToPrint({
+        content: () => systemRef.current, // Specify the content to be printed
+    });
+    const evaluationPrint = useReactToPrint({
+        content: () => evaluationRef.current, // Specify the content to be printed
+    });
+    
     
     return (
         <section className="container px-4 mx-auto">
@@ -214,14 +224,21 @@ const adminDashboard = () => {
                                                             <SelectContent>
                                                                 <SelectGroup>
                                                                     {/* <SelectLabel>Schools</SelectLabel> */}
-                                                                    <SelectItem value="evaluation">School Evaluation Summary</SelectItem>
-                                                                    <SelectItem value="customer">Customer Service Summary</SelectItem>
+                                                                    <SelectItem value="evaluation">School system evaluation</SelectItem>
+                                                                    <SelectItem value="customer">Customer service evaluation</SelectItem>
+                                                                    <SelectItem value="feedback">Customer Feedback</SelectItem>
+
                                                                 </SelectGroup>
                                                             </SelectContent>
                                                         </Select>
                                                             { selectResponseSummary === 'evaluation' && (
+                                                                
                                                                 <>
-                                                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
+                                                                <div className='w-full flex justify-end'>
+                                                                
+                                                                 <Button  onClick={systemPrint}><LocalPrintshopTwoToneIcon />Print</Button>
+                                                                </div>
+                                                                    <table ref={systemRef} className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
                                                                                 <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
@@ -266,7 +283,10 @@ const adminDashboard = () => {
                                                             
                                                             { selectResponseSummary === 'customer' && (
                                                                 <>
-                                                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
+                                                                <div className='w-full flex justify-end'>
+                                                                <Button  onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
+                                                               </div>
+                                                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
                                                                                 <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
@@ -301,6 +321,31 @@ const adminDashboard = () => {
                                                                                                 <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? evaluationDetail?.average?.techsupport : '' }</p>
                                                                                             </div>
                                                                                         </td>
+                                                                                        </>
+                                                                                    )}                                                        
+                                                                            </tr>
+                                                                            </tbody>
+                                                                    </table>
+                                                                </>
+                                                            )}
+
+                                                            { selectResponseSummary === 'feedback' && (
+                                                                <>
+                                                                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
+                                                                        <thead className="bg-gray-50 dark:bg-gray-800">
+                                                                            <tr>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Feedback:</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                            <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                                                            
+                                                                            
+                                                                            <tr>
+                                                                                { loadingSummary ? (
+                                                                                    <EvaluationDetailLoader></EvaluationDetailLoader>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, adipisci nam? Similique quos ex qui illo laborum voluptates magni maiores velit, natus reiciendis voluptate? Consequatur perferendis hic illo vitae deleniti!</td>
                                                                                         </>
                                                                                     )}                                                        
                                                                             </tr>

@@ -72,11 +72,11 @@ const Index = () => {
                         <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
                     )}
                     {/* for globe clients */}
-                    { logo == 'globe' && (
+                    {/* { logo == 'globe' && (
                         <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
-                    )}
+                    )} */}
                     {/* campus link or dcc */}
-                    { logo == 'dcc' && (
+                    { logo == 'globe' && (
                      <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
                     )}
                     <h4 className={`${styles.heading2} text-center`}>School Management System Evaluation Form</h4>
