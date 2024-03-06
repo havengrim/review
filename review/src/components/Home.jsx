@@ -49,6 +49,7 @@ const Home = () => {
   const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState(Array(customer.length).fill(null));
+  const [ feedback, setFeedback ] = useState('');
   const [ isProcessing, setIsProcessing ] = useState(false);
   const { state } = useLocation();
   const { logo, schoolCode } = useParams();
@@ -80,8 +81,6 @@ const Home = () => {
     setAnswers(Array(customer.length).fill(null));
   };
 
-  
-
   const handleNextClick = async (event) => {
     try {
       setIsProcessing(true);
@@ -91,7 +90,8 @@ const Home = () => {
         toast.error('Please fill out all the forms');
       } else {
         let support_evaluation = {
-            total_score : 0
+            total_score : 0,
+            feedback : feedback
         };
         customer.map((item, index) => {
             support_evaluation[item.question_id] = answers[index];
@@ -123,20 +123,9 @@ const Home = () => {
       ) : (
         <div className={`flex flex-col`}>
            <div className='flex gap-2 flex-col items-center justify-center'>
-                    {/* gci client or gocloud */}
-                    {/* <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" /> */}
-                    {/* for globe clients */}
-                    {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
-                    {/* campus link or dcc */}
-                    {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
-                      {/* gci client or gocloud */}
-                      { logo == 'gci' && (
+                    { logo == 'gci' && (
                         <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
                     )}
-                    {/* for globe clients */}
-                    {/* { logo == 'globe' && (
-                        <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
-                    )} */}
                     {/* campus link or dcc */}
                     { logo == 'globe' && (
                      <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
@@ -190,7 +179,7 @@ const Home = () => {
                 <CardDescription>Please provide your feedback and experiences.</CardDescription>
               </CardHeader>
               <CardContent>
-                <Textarea placeholder="Type your message here." />
+                <Textarea placeholder="Type your message here." value={feedback} onChange={(e) => setFeedback(e.target.value)} />
               </CardContent>
             </Card>
 
