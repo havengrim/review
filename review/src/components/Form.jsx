@@ -72,18 +72,13 @@ function Form() {
                   <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
               )}
               {/* for globe clients */}
-              { school?.logo == 'globe' && (
-                  <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" />
-              )}
+              {/* { school?.logo == 'globe' && ( */}
+                   {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
+              {/* )} */}
               {/* campus link or dcc */}
-              { school?.logo == 'dcc' && (
+              { school?.logo == 'globe' && (
                 <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" />
               )}
-          {/* <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" /> */}
-          {/* for globe clients */}
-          {/* <img className="w-[10rem] h-16 sm:h-14" src={ globe } alt="logo" /> */}
-          {/* campus link or dcc */}
-          {/* <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> */}
         </div>
         <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
           System Review

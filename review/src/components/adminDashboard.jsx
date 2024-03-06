@@ -77,6 +77,9 @@ const adminDashboard = () => {
     }
 
     const getEvaluationDetail = async(evaluationId) => {
+
+        // set default
+        setSelectResponseSummary('evaluation');
         try {
             setLoadingSummary(true);
             const response = await fetchEvaluationInfo(evaluationId);
@@ -337,15 +340,13 @@ const adminDashboard = () => {
                                                                                 <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Feedback:</th>
                                                                             </tr>
                                                                         </thead>
-                                                                            <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                                                            
-                                                                            
+                                                                            <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">                                                                                                                                                      
                                                                             <tr>
                                                                                 { loadingSummary ? (
                                                                                     <EvaluationDetailLoader></EvaluationDetailLoader>
                                                                                     ) : (
                                                                                         <>
-                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, adipisci nam? Similique quos ex qui illo laborum voluptates magni maiores velit, natus reiciendis voluptate? Consequatur perferendis hic illo vitae deleniti!</td>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{evaluationDetail?.techsupport_evaluation?.feedback}</td>
                                                                                         </>
                                                                                     )}                                                        
                                                                             </tr>
