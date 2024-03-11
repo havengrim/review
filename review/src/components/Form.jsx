@@ -8,7 +8,7 @@ import { hero } from "../assets";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { checkEvaluator } from '@/services/api';
 import { Toaster, toast } from 'sonner';
-import { getSchoolInfo } from '@/services/helper';
+import { getSchoolInfo, setLinkIcon } from '@/services/helper';
 function Form() {
   const navigate = useNavigate();
   const { schoolCode } = useParams();
@@ -57,6 +57,7 @@ function Form() {
     const schoolInfo = getSchoolInfo(schoolCode);
     if(schoolInfo) {
       setSchool(schoolInfo);
+      setLinkIcon(schoolInfo?.logo);
     } else {
       navigate('/404')
     }
