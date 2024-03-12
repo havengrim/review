@@ -85,7 +85,7 @@ function Form() {
           System Review
         </p>
         <p className="mt-3 text-sm text-center text-gray-600 dark:text-gray-200">
-        Please fill out the form to proceed. Your privacy is protected under strict data privacy regulations. Your information is safe and secure with us
+        Please fill out the form to proceed. Your privacy is protected under strict data privacy regulations. Your information is safe and secure with us.
         </p>
         <div className="mt-4">
            <div className="grid w-full max-w-sm items-center gap-1.5">

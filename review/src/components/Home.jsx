@@ -130,7 +130,7 @@ const Home = () => {
                     { logo == 'globe' && (
                      <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
                     )}
-                    <h4 className={`${styles.heading2} text-center  uppercase font-serif`}>Customer Evaluation Form</h4>
+                    <h4 className={`${styles.heading2} text-center  uppercase font-mons`}>Customer Evaluation Form</h4>
                 </div>
           <p className={`${styles.paragraph} text-center mt-2`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
           <div className={`${styles.marginY} flex gap-3 flex-col`}>
@@ -176,7 +176,7 @@ const Home = () => {
             <Card>
               <CardHeader>
                 <CardTitle>How does the School Management System help you?</CardTitle>
-                <CardDescription>Please provide your feedback and experiences.</CardDescription>
+                <CardDescription>Thank you for evaluating our services. Please share your honest feedback to help us improve. Additionally, we'd appreciate a testimony for our product.</CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea placeholder="Type your message here." value={feedback} onChange={(e) => setFeedback(e.target.value)} />

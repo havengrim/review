@@ -79,7 +79,7 @@ const Index = () => {
                     { logo == 'globe' && (
                      <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
                     )}
-                    <h4 className={`${styles.heading2}   uppercase text-center font-serif`}>School Management System Evaluation Form</h4>
+                    <h4 className={`${styles.heading2}  uppercase font-mons text-center`}>School Management System Evaluation Form</h4>
                 </div>
                 <p className={`${styles.paragraph} text-center mt-2`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
                 <div className={`${styles.marginY} flex gap-3 flex-col`}>
