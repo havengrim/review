@@ -81,7 +81,7 @@ function Form() {
                 <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" />
               )}
         </div>
-        <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
+        <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200  font-semibold">
           System Review
         </p>
         <p className="mt-3 text-sm text-center text-gray-600 dark:text-gray-200">
