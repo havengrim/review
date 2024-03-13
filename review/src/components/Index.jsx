@@ -44,7 +44,7 @@ const Index = () => {
     const handleNextClick = (event) => {
         if (!canProceed) {
             event.preventDefault();
-            toast.error('Please fill out all the forms');
+            toast.error('Fill out missed items to successfully submit your form.');
         } else {
             let school_evaluation = {
                 total_score : 0
@@ -89,7 +89,7 @@ const Index = () => {
                                 <div className="flex justify-between items-center">
                                     <div>
                                         <CardTitle>{item.question}</CardTitle>
-                                        <CardDescription className="mt-2">{item.description}</CardDescription>
+                                        <CardDescription className="mt-2 text-black text-md">{item.description}</CardDescription>
                                     </div>
                                     <div className="justify-end hidden sm:block">
                                         <item.icon fontSize="large" className="mt-4 text-gray-500" />

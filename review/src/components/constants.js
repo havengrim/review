@@ -37,21 +37,21 @@ export const data = [
         question_id : 'scalability',
         icon:  ZoomOutMapTwoToneIcon,
     },
-    { 
-        question: "Integration",
-        description: "Compatibility with LMS, finance software, communication platforms",
-        question_id : 'integration',
-         icon: IntegrationInstructionsTwoToneIcon,
-    },
+    // { 
+    //     question: "Integration",
+    //     description: "Compatibility with LMS, finance software, communication platforms",
+    //     question_id : 'integration',
+    //      icon: IntegrationInstructionsTwoToneIcon,
+    // },
     { 
         question: "Security",
-        description: "Role-based access control, Data encryption, Regular security updates",
+        description: "Role-based access control",
         question_id : 'security',
          icon: VerifiedUserTwoToneIcon,
     },
     { 
         question: "Reporting and Analytics",
-        description: "Robust tools for tracking student performance, attendance trends, and other metrics",
+        description: "Robust tools for tracking student performance",
         question_id : 'reporting_and_analytics',
          icon: AnalyticsTwoToneIcon ,
     },
@@ -97,7 +97,7 @@ export const customer = [
     },
     { 
         question: "Training Resources",
-        description: "Availability of training materials, webinars, tutorials to help users become proficient",
+        description: "Availability of training materials and in person training to help users become proficient",
         question_id : 'training_resources',
         icon: BackupTableTwoToneIcon,
     },
@@ -173,5 +173,41 @@ export const schools = [
         school_name : 'Escuela de Sophia of Caloocan, Inc.',
         logo : 'dcc'
     }
+
+]
+
+
+
+export const efficiency = [
+    { 
+        question: "Enrollment",
+        description: "Enrollment time reduced  by Academe System as compared to before",
+        question_id : 'enrollment',
+        icon: DevicesOtherTwoToneIcon,
+    },
+    { 
+        question: "Grades Recording time ",
+        description: "Grades Recording time reduced by Academe System as compared to before",
+        question_id : 'Grades',
+        icon: StreamTwoToneIcon,
+    },
+    { 
+        question: "Grades Dissemination time",
+        description: "Grades Dissemination time reduced by Academe System as compared to before",
+        question_id : 'communication',
+        icon: QuickreplyTwoToneIcon,
+    },
+    { 
+        question: "Reports Generation time",
+        description: "Reports Generation time reduced by Academe System as compared to before",
+        question_id : 'documentation',
+        icon: DescriptionTwoToneIcon,
+    },
+    { 
+        question: "Overall School Efficiency",
+        description: "Overall School Efficiency achieved by having the System as compared to before",
+        question_id : 'training_resources',
+        icon: BackupTableTwoToneIcon,
+    },
 
 ]
