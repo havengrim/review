@@ -7,7 +7,8 @@ import { Toaster, toast } from 'sonner';
 import { utils as XLSXUtils, writeFile as XLSXWriteFile } from 'xlsx';
 import {
     customer,
-    data
+    data,
+    efficiency
 } from './constants';
 
 
@@ -185,8 +186,9 @@ const adminDashboard = () => {
 
                                         <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Position</th>
                                         <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">School</th>
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">School Evaluation</th>
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal  text-center rtl:text-right text-gray-500 dark:text-gray-400">Customer Service</th>
+                                        <th scope="col" className="px-2 py-3 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">School Evaluation</th>
+                                        <th scope="col" className="px-2 py-3 text-sm font-normal  text-center rtl:text-right text-gray-500 dark:text-gray-400">Customer Service</th>
+                                        <th scope="col" className="px-2 py-3 text-sm font-normal  text-center rtl:text-right text-gray-500 dark:text-gray-400">Efficiency Evaluation</th>
                                         <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Actions</th>
                                     </tr>
                                 </thead>
@@ -213,6 +215,12 @@ const adminDashboard = () => {
                                                     {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
                                                 </div>
                                             </td>
+                                            <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                <div className="flex items-center gap-x-2 justify-center">
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.efficiency}</p>
+                                                    {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
+                                                </div>
+                                            </td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
                                                 {/* <Link to="/summary">
                                                     
@@ -235,6 +243,7 @@ const adminDashboard = () => {
                                                                     {/* <SelectLabel>Schools</SelectLabel> */}
                                                                     <SelectItem value="evaluation">School system evaluation</SelectItem>
                                                                     <SelectItem value="customer">Customer service evaluation</SelectItem>
+                                                                    <SelectItem value="effciency">Efficiency evaluation</SelectItem>
                                                                     <SelectItem value="feedback">Customer Feedback</SelectItem>
 
                                                                 </SelectGroup>
@@ -345,6 +354,54 @@ const adminDashboard = () => {
                                                                 </>
                                                             )}
 
+                                                            { selectResponseSummary === 'effciency' && (
+                                                                <>
+                                                                <div className='w-full flex justify-end'>
+                                                                    <Button  onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
+                                                                </div>
+                                                                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
+                                                                    <thead className="bg-gray-50 dark:bg-gray-800">
+                                                                        <tr>
+                                                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
+                                                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                        <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                                                        {efficiency.map((item, cardIndex) => (
+                                                                            <tr key={item.question_id}>
+                                                                                { loadingSummary ? (
+                                                                                <EvaluationDetailLoader></EvaluationDetailLoader>
+                                                                                ) : (
+                                                                                    <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
+                                                                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                                                            <div className="flex items-center gap-x-2">
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.efficiency_evaluation ? evaluationDetail?.efficiency_evaluation[item?.question_id] : '' }</p>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </>
+                                                                                )}
+                                                                            </tr>
+                                                                        ))}
+                                                                        
+                                                                        <tr>
+                                                                            { loadingSummary ? (
+                                                                                <EvaluationDetailLoader></EvaluationDetailLoader>
+                                                                                ) : (
+                                                                                    <>
+                                                                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
+                                                                                    <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                                                        <div className="flex items-center gap-x-2">
+                                                                                            <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? evaluationDetail?.average?.efficiency : '' }</p>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    </>
+                                                                                )}                                                        
+                                                                        </tr>
+                                                                        </tbody>
+                                                                </table>
+                                                                </>
+                                                            )}
+
                                                             { selectResponseSummary === 'feedback' && (
                                                                 <>
                                                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
@@ -359,7 +416,7 @@ const adminDashboard = () => {
                                                                                     <EvaluationDetailLoader></EvaluationDetailLoader>
                                                                                     ) : (
                                                                                         <>
-                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{evaluationDetail?.techsupport_evaluation?.feedback}</td>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">{evaluationDetail?.feedback}</td>
                                                                                         </>
                                                                                     )}                                                        
                                                                             </tr>
@@ -404,7 +461,7 @@ const adminDashboard = () => {
                                     
                                     { evaluations.length <= 0 &&
                                         <tr>
-                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" colSpan={6}>
+                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" colSpan={7}>
                                                 <div className="inline-flex items-center gap-x-3 justify-center">  
                                                     <h2 className="font-medium text-gray-800 dark:text-white "> No data found. </h2>
                                                 </div>

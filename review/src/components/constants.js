@@ -176,37 +176,35 @@ export const schools = [
 
 ]
 
-
-
 export const efficiency = [
     { 
         question: "Enrollment",
-        description: "Enrollment time reduced  by Academe System as compared to before",
-        question_id : 'enrollment',
+        description: "Enrollment time reduced  by Academe System as compared to before:",
+        question_id : 'enrollment_time',
         icon: DevicesOtherTwoToneIcon,
     },
     { 
         question: "Grades Recording time ",
-        description: "Grades Recording time reduced by Academe System as compared to before",
-        question_id : 'Grades',
+        description: "Grades Recording time reduced by Academe System as compared to before:",
+        question_id : 'grades_recording_time',
         icon: StreamTwoToneIcon,
     },
     { 
         question: "Grades Dissemination time",
-        description: "Grades Dissemination time reduced by Academe System as compared to before",
-        question_id : 'communication',
+        description: "Grades Dissemination time reduced by Academe System as compared to before:",
+        question_id : 'grades_dissemination_time',
         icon: QuickreplyTwoToneIcon,
     },
     { 
         question: "Reports Generation time",
-        description: "Reports Generation time reduced by Academe System as compared to before",
-        question_id : 'documentation',
+        description: "Reports Generation time reduced by Academe System as compared to before:",
+        question_id : 'reports_generation_time',
         icon: DescriptionTwoToneIcon,
     },
     { 
         question: "Overall School Efficiency",
-        description: "Overall School Efficiency achieved by having the System as compared to before",
-        question_id : 'training_resources',
+        description: "Overall School Efficiency achieved by having the System as compared to before:",
+        question_id : 'overall_school_efficiency',
         icon: BackupTableTwoToneIcon,
     },
 

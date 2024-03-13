@@ -19,8 +19,8 @@ const App = () => (
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/sign-in" element={<Signin />} /> 
         <Route path="/greetings/:schoolCode" element={<Greetings />} /> 
-        <Route path="/:schoolCode/:logo/support-evaluation" element={<Home />} /> 
         <Route path="/:schoolCode/:logo/school-evaluation" element={<Index />} /> 
+        <Route path="/:schoolCode/:logo/support-evaluation" element={<Home />} /> 
         <Route path="/:schoolCode/:logo/efficiency-evaluation" element={<Efficiency />} /> 
         <Route path="/:schoolCode/evaluation" element={<Form />} /> 
         <Route path='*' element={<Navigate to='/404' />} />
