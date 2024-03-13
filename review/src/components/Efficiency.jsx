@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useParams  } from 'react-router-dom'; /
 import styles, { layout } from "../style";
 import { Button } from './ui/button';
 import { logo } from '../assets';
-import { customer } from './constants'; 
+import { efficiency } from './constants'; 
 import { submitEvaluation } from '@/services/api';
 import { Toaster, toast } from 'sonner';
 import { Textarea } from "@/components/ui/textarea"
@@ -21,7 +21,7 @@ import RestartAltTwoToneIcon from '@mui/icons-material/RestartAltTwoTone';
 const SkeletonLoader = () => (
   <div className='w-full'>
     {/* Placeholder for cards */}
-    {[...Array(customer.length)].map((_, index) => (
+    {[...Array(efficiency.length)].map((_, index) => (
       <Card key={index} className="animate-pulse border border-t-[20px] cursor-pointer">
         <CardHeader>
           <div className="flex justify-between items-center">
@@ -45,10 +45,10 @@ const SkeletonLoader = () => (
   </div>
 );
 
-const Home = () => {
+const Efficiency = () => {
   const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
   const [loading, setLoading] = useState(true);
-  const [answers, setAnswers] = useState(Array(customer.length).fill(null));
+  const [answers, setAnswers] = useState(Array(efficiency.length).fill(null));
   const [ feedback, setFeedback ] = useState('');
   const [ isProcessing, setIsProcessing ] = useState(false);
   const { state } = useLocation();
@@ -78,67 +78,67 @@ const Home = () => {
   };
 
   const handleRestart = () => {
-    setAnswers(Array(customer.length).fill(null));
+    setAnswers(Array(efficiency.length).fill(null));
   };
 
-  // const handleNextClick = async (event) => {
-  //   try {
-  //     setIsProcessing(true);
-  //     const canProceed = !answers.includes(null);
-  //     if (!canProceed) {
-  //       event.preventDefault();
-  //       toast.error('Please fill out all the forms');
-  //     } else {
-  //       let support_evaluation = {
-  //           total_score : 0,
-  //           feedback : feedback
-  //       };
-  //       customer.map((item, index) => {
-  //           support_evaluation[item.question_id] = answers[index];
-  //           support_evaluation.total_score += answers[index];
-  //       });
-
-  //       const evaluationData = {
-  //         evaluator : state?.evaluator,
-  //         school_evaluation : state?.school_evaluation,
-  //         techsupport_evaluation : support_evaluation
-  //       };
-
-  //       const response = await submitEvaluation(evaluationData);
-  //       if(response.status) {
-  //         navigate(`/greetings/${state.evaluator.school}`);
-  //       }
-  //     }
-  //   } catch(error) {
-  //     toast.error('Something went wrong. Please try again');
-  //   } finally{
-  //     setIsProcessing(false);
-  //   }
-  // };
-
-  const canProceed = !answers.includes(null);
-
-  const handleNextClick = (event) => {
+  const handleNextClick = async (event) => {
+    try {
+      setIsProcessing(true);
+      const canProceed = !answers.includes(null);
       if (!canProceed) {
-          event.preventDefault();
-          toast.error('Fill out missed items to successfully submit your form.');
+        event.preventDefault();
+        toast.error('Fill out missed items to successfully submit your form.');
       } else {
-          let school_evaluation = {
-              total_score : 0
-          };
-          customer.map((item, index) => {
-              school_evaluation[item.question_id] = answers[index];
-              school_evaluation.total_score += answers[index];
-          });
-          const url = `/${schoolCode}/${logo}/efficiency-evaluation`;
-          navigate(url, {
-              state: {
-                  evaluator: state?.evaluator,
-                  school_evaluation: school_evaluation
-              }
-          });
+        let support_evaluation = {
+            total_score : 0,
+            feedback : feedback
+        };
+        efficiency.map((item, index) => {
+            support_evaluation[item.question_id] = answers[index];
+            support_evaluation.total_score += answers[index];
+        });
+
+        const evaluationData = {
+          evaluator : state?.evaluator,
+          school_evaluation : state?.school_evaluation,
+          techsupport_evaluation : support_evaluation
+        };
+
+        const response = await submitEvaluation(evaluationData);
+        if(response.status) {
+          navigate(`/greetings/${state.evaluator.school}`);
+        }
       }
+    } catch(error) {
+      toast.error('Something went wrong. Please try again');
+    } finally{
+      setIsProcessing(false);
+    }
   };
+
+//   const canProceed = !answers.includes(null);
+
+//   const handleNextClick = (event) => {
+//       if (!canProceed) {
+//           event.preventDefault();
+//           toast.error('Fill out missed items to successfully submit your form.');
+//       } else {
+//           let school_evaluation = {
+//               total_score : 0
+//           };
+//           efficiency.map((item, index) => {
+//               school_evaluation[item.question_id] = answers[index];
+//               school_evaluation.total_score += answers[index];
+//           });
+//           const url = `/${schoolCode}/${logo}/efficiency-evaluation`;
+//           navigate(url, {
+//               state: {
+//                   evaluator: state?.evaluator,
+//                   school_evaluation: school_evaluation
+//               }
+//           });
+//       }
+//   };
 
   return (
     <section className={`${layout.section} ${styles.flexCenter}  ${styles.paddingY} ${styles.paddingX}`}>
@@ -154,11 +154,11 @@ const Home = () => {
                     { logo == 'globe' && (
                      <img className="w-[20rem] h-16 sm:h-20" src={ Campuslink } alt="logo" /> 
                     )}
-                    <h4 className={`${styles.heading2} text-center  uppercase font-mons`}>Customer Evaluation Form</h4>
+                    <h4 className={`${styles.heading2} text-center  uppercase font-mons`}>Efficiency Metrics Form</h4>
                 </div>
           <p className={`${styles.paragraph} text-center mt-2`}>Thank you for taking the time to evaluate our services. Your feedback is invaluable in helping us improve our offerings for a better user experience.</p>
           <div className={`${styles.marginY} flex gap-3 flex-col`}>
-            {customer.map((item, cardIndex) => (
+            {efficiency.map((item, cardIndex) => (
               <Card key={item.question_id} className=" border border-t-[20px] cursor-pointer ">
                 <CardHeader>
                   <div className="flex justify-between items-center">
@@ -196,16 +196,18 @@ const Home = () => {
                 </CardContent>
               </Card>
             ))}
-{/* 
+
             <Card>
               <CardHeader>
                 <CardTitle>How does the School Management System help you?</CardTitle>
-                <CardDescription>Thank you for evaluating our services. Please share your honest feedback to help us improve. Additionally, we'd appreciate a testimony for our product.</CardDescription>
+                <CardDescription>As cherished clients, your feedback is invaluable to us. Kindly share your thoughts on how the Academe System has influenced your school experience.
+                     Highlight improvements it has brought to your processes and offer suggestions for further enhancements.
+                      With your permission, we may utilize portions of your feedback for marketing purposes as testimonials.</CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea placeholder="Type your message here." value={feedback} onChange={(e) => setFeedback(e.target.value)} />
               </CardContent>
-            </Card> */}
+            </Card>
 
             <div className="flex justify-between">
               <div className='flex gap-2'>
@@ -216,8 +218,8 @@ const Home = () => {
                   <Button className="bg-red-400">Back</Button>              
                 </Link>
                 {/* <Link to="/greetings" > */}
-                  {/* <Button onClick={handleNextClick} disabled={isProcessing}>Submit</Button> */}
-                  <Button onClick={handleNextClick} disabled={!canProceed}>Next</Button>
+                  <Button onClick={handleNextClick} disabled={isProcessing}>Submit</Button>
+                  {/* <Button onClick={handleNextClick} disabled={!canProceed}>Next</Button> */}
                 {/* </Link> */}
               </div>
               <div>
@@ -232,7 +234,7 @@ const Home = () => {
   )
 }
 
-export default Home;
+export default Efficiency;
 
 
 

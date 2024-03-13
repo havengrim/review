@@ -23,7 +23,7 @@ function Form() {
   const clickSubmitButton = async () => {
     try {
       if(name == '' || position == '') {
-        toast.error('Please fill up the form properly');
+        toast.error('Fill out missed items to successfully submit your form.');
       } else {
         const evaluatorData = {
           fullname : name,

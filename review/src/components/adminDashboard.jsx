@@ -4,6 +4,7 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import LocalPrintshopTwoToneIcon from '@mui/icons-material/LocalPrintshopTwoTone';
 import { useReactToPrint } from 'react-to-print'; // Import useReactToPrint hook
 import { Toaster, toast } from 'sonner';
+import { utils as XLSXUtils, writeFile as XLSXWriteFile } from 'xlsx';
 import {
     customer,
     data
@@ -68,6 +69,7 @@ const adminDashboard = () => {
     const [ loadingSummary, setLoadingSummary] = useState(false);
     const [ evaluationDetail, setEvaluationDetail ] = useState({});
     const [ selectResponseSummary, setSelectResponseSummary ] = useState('evaluation');
+  
 
     const getEvaluations = async () => {
         const response = await fetchAllEvaluations();
@@ -124,13 +126,17 @@ const adminDashboard = () => {
     const handlePrint = useReactToPrint({
         content: () => tableRef.current, // Specify the content to be printed
     });
-    const systemPrint = useReactToPrint({
-        content: () => systemRef.current, // Specify the content to be printed
-    });
+    // const systemPrint = useReactToPrint({
+    //     content: () => systemRef.current, // Specify the content to be printed
+    // });
     const evaluationPrint = useReactToPrint({
         content: () => evaluationRef.current, // Specify the content to be printed
     });
     
+    const systemPrint = () => {
+        const wb = XLSXUtils.table_to_book(document.getElementById("systemTable"));
+        XLSXWriteFile(wb, "evaluation_summary.xlsx");
+      };
     
     return (
         <section className="container px-4 mx-auto">
@@ -140,7 +146,7 @@ const adminDashboard = () => {
                 </div>
             </div>
             <div className='flex  gap-2 items-end justify-end'>   
-                    <Button className="w-20" onClick={handlePrint}>Export</Button>
+                    <Button className="w-20" onClick={systemPrint}>Export</Button>
                     <Select onValueChange={(value) => getEvaluationsBySchool(value) }>
                         <SelectTrigger className="w-[180px]"  >
                             <SelectValue placeholder="Select School"/>
@@ -163,12 +169,12 @@ const adminDashboard = () => {
                         </SelectContent>
                     </Select>
                 </div>
-
+                
             <div className="flex flex-col mt-6">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                         <div className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                             <table ref={tableRef} className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                             <table ref={tableRef}  id="systemTable" className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-gray-50dark:bg-gray-800">
                                     <tr>
                                         <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -241,6 +247,13 @@ const adminDashboard = () => {
                                                                 
                                                                  <Button  onClick={systemPrint}><LocalPrintshopTwoToneIcon />Print</Button>
                                                                 </div>
+                                                                <div className='flex justify-between mt-3 mb-2'>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">5</span>- Excellent</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">4</span> - Very Good</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">3</span> - Good</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2</span> - Fair</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">1</span> - Poor</span>
+                                                                    </div>
                                                                     <table ref={systemRef} className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>

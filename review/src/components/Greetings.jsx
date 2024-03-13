@@ -43,8 +43,8 @@ const Greetings = () => {
               <img src={message} className="w-[80px] h-[80px]" alt="Message Icon" />
             </CardHeader>
             <CardContent>
-              <CardTitle>Thank you for your feedback! </CardTitle>
-              <CardDescription className="mt-4"> We're glad you found our school management system helpful. <br />Your input helps us improve. Thanks for choosing us!</CardDescription>
+              <CardTitle>Thank you for participating in this System Review</CardTitle>
+              <CardDescription className="mt-4"> We remain dedicated to delivering nothing short of exceptional customer experiences. </CardDescription>
             </CardContent>
             <CardFooter>
               <Link to={`/${schoolCode}/evaluation`}>

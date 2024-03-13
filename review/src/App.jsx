@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import styles from "./style";
 import Home from "./components/Home";
 import Index from "./components/Index";
+import Efficiency from "./components/Efficiency";
 import Greetings from './components/Greetings';
 import Form from './components/Form';
 import Dashboard from './components/Dashboard';
@@ -20,6 +21,7 @@ const App = () => (
         <Route path="/greetings/:schoolCode" element={<Greetings />} /> 
         <Route path="/:schoolCode/:logo/support-evaluation" element={<Home />} /> 
         <Route path="/:schoolCode/:logo/school-evaluation" element={<Index />} /> 
+        <Route path="/:schoolCode/:logo/efficiency-evaluation" element={<Efficiency />} /> 
         <Route path="/:schoolCode/evaluation" element={<Form />} /> 
         <Route path='*' element={<Navigate to='/404' />} />
       </Routes>
