@@ -311,6 +311,13 @@ const adminDashboard = () => {
                                                                 <div className='w-full flex justify-end'>
                                                                 <Button  onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
                                                                </div>
+                                                               <div className='flex justify-between mt-3 mb-2'>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">5</span>- Excellent</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">4</span> - Very Good</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">3</span> - Good</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2</span> - Fair</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">1</span> - Poor</span>
+                                                                    </div>
                                                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
@@ -359,6 +366,13 @@ const adminDashboard = () => {
                                                                 <div className='w-full flex justify-end'>
                                                                     <Button  onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
                                                                 </div>
+                                                                <div className='flex justify-between mt-3 mb-2'>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">5</span>- 100%</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">4</span> - 75%</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">3</span> - 50%</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2</span> - 25%</span>
+                                                                        <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">1</span> - 10%</span>
+                                                                    </div>
                                                                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
                                                                     <thead className="bg-gray-50 dark:bg-gray-800">
                                                                         <tr>

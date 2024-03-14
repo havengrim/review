@@ -46,7 +46,7 @@ const SkeletonLoader = () => (
 );
 
 const Efficiency = () => {
-  const ratings = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+  const ratings = ['10%', '25%', '50%', '75%', '100%'];
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState(Array(efficiency.length).fill(null));
   const [ feedback, setFeedback ] = useState('');
