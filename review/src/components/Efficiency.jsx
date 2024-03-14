@@ -89,19 +89,20 @@ const Efficiency = () => {
         event.preventDefault();
         toast.error('Fill out missed items to successfully submit your form.');
       } else {
-        let support_evaluation = {
+        let efficiency_evaluation = {
             total_score : 0,
-            feedback : feedback
         };
         efficiency.map((item, index) => {
-            support_evaluation[item.question_id] = answers[index];
-            support_evaluation.total_score += answers[index];
+            efficiency_evaluation[item.question_id] = answers[index];
+            efficiency_evaluation.total_score += answers[index];
         });
 
         const evaluationData = {
           evaluator : state?.evaluator,
           school_evaluation : state?.school_evaluation,
-          techsupport_evaluation : support_evaluation
+          techsupport_evaluation : state?.support_evaluation,
+          efficiency_evaluation : efficiency_evaluation,
+          feedback : feedback
         };
 
         const response = await submitEvaluation(evaluationData);
@@ -111,6 +112,7 @@ const Efficiency = () => {
       }
     } catch(error) {
       toast.error('Something went wrong. Please try again');
+      console.log(error);
     } finally{
       setIsProcessing(false);
     }

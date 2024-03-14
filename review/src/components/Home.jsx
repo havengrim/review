@@ -123,18 +123,19 @@ const Home = () => {
           event.preventDefault();
           toast.error('Fill out missed items to successfully submit your form.');
       } else {
-          let school_evaluation = {
+          let support_evaluation = {
               total_score : 0
           };
           customer.map((item, index) => {
-              school_evaluation[item.question_id] = answers[index];
-              school_evaluation.total_score += answers[index];
+              support_evaluation[item.question_id] = answers[index];
+              support_evaluation.total_score += answers[index];
           });
           const url = `/${schoolCode}/${logo}/efficiency-evaluation`;
           navigate(url, {
               state: {
                   evaluator: state?.evaluator,
-                  school_evaluation: school_evaluation
+                  school_evaluation : state?.school_evaluation,
+                  support_evaluation: support_evaluation
               }
           });
       }
