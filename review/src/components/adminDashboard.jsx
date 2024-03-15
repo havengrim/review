@@ -152,6 +152,7 @@ const adminDashboard = () => {
             const response = await fetchEvaluationsBySchool(school);
             if(response.status) {
                 setEvaluations(response.data);
+                getTotals(response.data);
             }
         }
         
