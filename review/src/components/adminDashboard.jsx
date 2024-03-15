@@ -70,12 +70,18 @@ const adminDashboard = () => {
     const [ loadingSummary, setLoadingSummary] = useState(false);
     const [ evaluationDetail, setEvaluationDetail ] = useState({});
     const [ selectResponseSummary, setSelectResponseSummary ] = useState('evaluation');
-  
+    const evaluation = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent']
+    const percentages = ['', '10%', '25%', '50%', '75%', '100%']
+
+    const [ totalSchoolAverage, setTotalSchoolAverage ] = useState(0);
+    const [ totalSupportAverage, setTotalSupportAverage ] = useState(0);
+    const [ totalEfficiencyAverage, setTotalEfficiencyAverage ] = useState(0);
 
     const getEvaluations = async () => {
         const response = await fetchAllEvaluations();
         if(response.status) {
-            setEvaluations(response.data)
+            setEvaluations(response.data);
+            getTotals(response.data);
         }
     }
 
@@ -96,6 +102,34 @@ const adminDashboard = () => {
         }
     }
 
+    const getEvaluationValue = (answer) => {
+        let roundOffValue = Math.round(answer)
+        return evaluation[roundOffValue];
+    }
+
+    const getPercentageValue = (answer) => {
+        let roundOffValue = Math.round(answer)
+        return percentages[roundOffValue];
+    }
+    
+    const getTotals = (evaluatiansData) => {
+        if(evaluatiansData) {
+            let total_school_average = 0;
+            let total_support_average = 0;
+            let total_efficiency_average = 0;
+            evaluatiansData.map((data , index) => {
+                console.log(data);
+                total_school_average += parseInt(data.average.school);
+                total_support_average += parseInt(data.average.techsupport)
+                total_efficiency_average += parseInt(data.average.efficiency);
+            });
+
+            setTotalSchoolAverage(total_school_average);
+            setTotalSupportAverage(total_support_average);
+            setTotalEfficiencyAverage(total_efficiency_average);
+        }
+    }
+ 
     useEffect(() => {
         if(!state) {
             navigate('/sign-in');
@@ -122,7 +156,6 @@ const adminDashboard = () => {
         }
         
     }
-
 
     const handlePrint = useReactToPrint({
         content: () => tableRef.current, // Specify the content to be printed
@@ -205,20 +238,20 @@ const adminDashboard = () => {
                                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{evaluation.school.toUpperCase()}</td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap flex items-center justify-center">
                                                 <div className="flex items-center gap-x-2">
-                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.school}</p>
-                                                    {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{getEvaluationValue(evaluation.average.school)} </p> - 
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.school} </p>
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                 <div className="flex items-center gap-x-2 justify-center">
-                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.techsupport}</p>
-                                                    {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{getEvaluationValue(evaluation.average.techsupport)} </p> - 
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.techsupport} </p>
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                 <div className="flex items-center gap-x-2 justify-center">
-                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.efficiency}</p>
-                                                    {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{getPercentageValue(evaluation.average.efficiency)} </p> - 
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{evaluation.average.efficiency} </p>
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap flex gap-3">
@@ -249,20 +282,19 @@ const adminDashboard = () => {
                                                                 </SelectGroup>
                                                             </SelectContent>
                                                         </Select>
-                                                            { selectResponseSummary === 'evaluation' && (
-                                                                
+                                                            { selectResponseSummary === 'evaluation' && (                                                               
                                                                 <>
                                                                 <div className='w-full flex justify-end'>
                                                                 
                                                                  <Button  onClick={systemPrint}><LocalPrintshopTwoToneIcon />Print</Button>
                                                                 </div>
-                                                                <div className='flex justify-between mt-3 mb-2'>
+                                                                {/* <div className='flex justify-between mt-3 mb-2'>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">5</span>- Excellent</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">4</span> - Very Good</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">3</span> - Good</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2</span> - Fair</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">1</span> - Poor</span>
-                                                                    </div>
+                                                                    </div> */}
                                                                     <table ref={systemRef} className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
@@ -279,7 +311,7 @@ const adminDashboard = () => {
                                                                                         <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
                                                                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                                 <div className="flex items-center gap-x-2">
-                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.school_evaluation ? evaluationDetail?.school_evaluation[item?.question_id] : '' }</p>
+                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.school_evaluation ? getEvaluationValue(evaluationDetail?.school_evaluation[item?.question_id]) : '' }</p>
                                                                                                 </div>
                                                                                             </td>
                                                                                         </>
@@ -295,7 +327,7 @@ const adminDashboard = () => {
                                                                                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
                                                                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                             <div className="flex items-center gap-x-2">
-                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? evaluationDetail?.average?.school : '' }</p>
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getEvaluationValue(evaluationDetail?.average?.school) : '' }</p>
                                                                                             </div>
                                                                                         </td>
                                                                                         </>
@@ -311,13 +343,13 @@ const adminDashboard = () => {
                                                                 <div className='w-full flex justify-end'>
                                                                 <Button  onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
                                                                </div>
-                                                               <div className='flex justify-between mt-3 mb-2'>
+                                                               {/* <div className='flex justify-between mt-3 mb-2'>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">5</span>- Excellent</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">4</span> - Very Good</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">3</span> - Good</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2</span> - Fair</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">1</span> - Poor</span>
-                                                                    </div>
+                                                                    </div> */}
                                                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
@@ -334,7 +366,7 @@ const adminDashboard = () => {
                                                                                         <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
                                                                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                                 <div className="flex items-center gap-x-2">
-                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.techsupport_evaluation ? evaluationDetail?.techsupport_evaluation[item?.question_id] : '' }</p>
+                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.techsupport_evaluation ? getEvaluationValue(evaluationDetail?.techsupport_evaluation[item?.question_id]) : '' }</p>
                                                                                                 </div>
                                                                                             </td>
                                                                                         </>
@@ -347,10 +379,10 @@ const adminDashboard = () => {
                                                                                     <EvaluationDetailLoader></EvaluationDetailLoader>
                                                                                     ) : (
                                                                                         <>
-                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Average Score</td>
                                                                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                             <div className="flex items-center gap-x-2">
-                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? evaluationDetail?.average?.techsupport : '' }</p>
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getEvaluationValue(evaluationDetail?.average?.techsupport) : '' }</p>
                                                                                             </div>
                                                                                         </td>
                                                                                         </>
@@ -366,13 +398,13 @@ const adminDashboard = () => {
                                                                 <div className='w-full flex justify-end'>
                                                                     <Button  onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
                                                                 </div>
-                                                                <div className='flex justify-between mt-3 mb-2'>
+                                                                {/* <div className='flex justify-between mt-3 mb-2'>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">5</span>- 100%</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">4</span> - 75%</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">3</span> - 50%</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">2</span> - 25%</span>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">1</span> - 10%</span>
-                                                                    </div>
+                                                                    </div> */}
                                                                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
                                                                     <thead className="bg-gray-50 dark:bg-gray-800">
                                                                         <tr>
@@ -389,7 +421,7 @@ const adminDashboard = () => {
                                                                                     <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
                                                                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                             <div className="flex items-center gap-x-2">
-                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.efficiency_evaluation ? evaluationDetail?.efficiency_evaluation[item?.question_id] : '' }</p>
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.efficiency_evaluation ? getPercentageValue(evaluationDetail?.efficiency_evaluation[item?.question_id]) : '' }</p>
                                                                                             </div>
                                                                                         </td>
                                                                                     </>
@@ -405,7 +437,7 @@ const adminDashboard = () => {
                                                                                     <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
                                                                                     <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                         <div className="flex items-center gap-x-2">
-                                                                                            <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? evaluationDetail?.average?.efficiency : '' }</p>
+                                                                                            <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getPercentageValue(evaluationDetail?.average?.efficiency) : '' }</p>
                                                                                         </div>
                                                                                     </td>
                                                                                     </>
@@ -465,24 +497,15 @@ const adminDashboard = () => {
                                                         <AlertDialogAction onClick={() => processDeleteEvaluation(evaluation.id) }>Continue</AlertDialogAction>
                                                         </AlertDialogFooter>
                                                     </AlertDialogContent>
-                                                    </AlertDialog>
+                                                </AlertDialog>
 
 
                                                     {/* <DeleteOutlineRoundedIcon onClick={() => processDeleteEvaluation(evaluation.id) } className=' text-gray-500 cursor-pointer'  /> */}
                                             </td>
                                         </tr>
                                     ))}
-                                    
-                                    { evaluations.length <= 0 &&
+                                    { evaluations.length >= 1 &&
                                         <tr>
-                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" colSpan={7}>
-                                                <div className="inline-flex items-center gap-x-3 justify-center">  
-                                                    <h2 className="font-medium text-gray-800 dark:text-white "> No data found. </h2>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                    <tr class="hidden">
                                             <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                                 <div className="inline-flex items-center gap-x-3">  
                                                     <h2 className="font-medium text-gray-800 dark:text-white ">Total</h2>
@@ -492,13 +515,19 @@ const adminDashboard = () => {
                                             <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap"></td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                 <div className="flex items-center gap-x-2 justify-center">
-                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">12.5</p>
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{totalSchoolAverage}</p>
                                                     {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
                                                 </div>
                                             </td>
                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                 <div className="flex items-center gap-x-2 justify-center">
-                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">12.5</p>
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{totalSupportAverage}</p>
+                                                    {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                <div className="flex items-center gap-x-2 justify-center">
+                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{totalEfficiencyAverage}</p>
                                                     {/* <p className="px-3 py-1 text-xs text-yellow-500 rounded-full dark:bg-gray-800 bg-yellow-100">Team B</p> */}
                                                 </div>
                                             </td>
@@ -506,6 +535,17 @@ const adminDashboard = () => {
                                             
                                             </td>
                                         </tr>
+                                    }
+                                    { evaluations.length <= 0 &&
+                                        <tr>
+                                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" colSpan={7}>
+                                                <div className="inline-flex items-center gap-x-3 justify-center">  
+                                                    <h2 className="font-medium text-gray-800 dark:text-white "> No data found. </h2>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                    
                                 </tbody>
 
                                 
