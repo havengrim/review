@@ -171,7 +171,7 @@ export const schools = [
     {
         school_code : 'edsci',
         school_name : 'Escuela de Sophia of Caloocan, Inc.',
-        logo : 'dcc'
+        logo : 'globe'
     }
 
 ]
