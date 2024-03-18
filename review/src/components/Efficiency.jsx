@@ -150,7 +150,7 @@ const Efficiency = () => {
         <div className={`flex flex-col`}>
            <div className='flex gap-2 flex-col items-center justify-center'>
                     { logo == 'gci' && (
-                        <img className="w-[10rem] h-12 sm:h-12" src={ academe } alt="logo" />
+                       <img className="w-[12rem] h-14" src={ academe } alt="logo" />
                     )}
                     {/* campus link or dcc */}
                     { logo == 'globe' && (
