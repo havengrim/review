@@ -12,6 +12,7 @@ import illustration from "./illustration.svg";
 import Campuslink from "./Campuslink.png"
 import globe from "./globe.png";
 import academe from "./logo-academe-sms.png";
+import campusLogo from './Campuslink-logo.png';
 
 export {
   logo,
@@ -27,4 +28,5 @@ export {
   Campuslink,
   globe,
   academe,
+  campusLogo
 };

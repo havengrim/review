@@ -1,4 +1,5 @@
 import { schools } from "@/components/constants";
+import { campusLogo, cloud } from "@/assets";
 
 export const getSchoolInfo = (school_code : any) => {
     let school = schools.filter((e) => e.school_code === school_code);
@@ -6,22 +7,21 @@ export const getSchoolInfo = (school_code : any) => {
 }
 
 export const setLinkIcon = (logo : string) => {
-    const academeLinkLogo = '/src/assets/logo.png';
     let linkElement : any = document.querySelector('link[rel=icon]');
     let linkLogo : string = '';
 
     switch(logo) {
         case 'dcc' :
-            linkLogo = "/src/assets/Campuslink-logo.png";
+            linkLogo = campusLogo;
             break;
         case 'gci' :
-            linkLogo = "/src/assets/logo.png"
+            linkLogo = cloud;
             break;
         case 'globe' :
-            linkLogo = "/src/assets/Campuslink-logo.png";
+            linkLogo = campusLogo;
             break;
         default :
-            linkLogo = "/src/assets/logo.png"
+            linkLogo = cloud;
             break;
     }
 
