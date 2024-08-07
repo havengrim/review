@@ -9,9 +9,11 @@ const Signin = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const master_username = 'admin@academesms.com';
+    const master_password = 'b00da122024';
     const login = () => {
-        if(username == 'admin@admin.com' && password == 'password321') {
+        
+        if(username === master_username && password == master_password) {
             navigate('/dashboard', { state : {
                 isloggedIn : true
             }});
@@ -21,6 +23,7 @@ const Signin = () => {
     }
 
     return (
+        
         <section className="bg-gray-100 dark:bg-gray-900">
              <Toaster richColors position="top-right"/>
             <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">

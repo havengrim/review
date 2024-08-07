@@ -118,7 +118,6 @@ const adminDashboard = () => {
             let total_support_average = 0;
             let total_efficiency_average = 0;
             evaluatiansData.map((data , index) => {
-                console.log(data);
                 total_school_average += parseInt(data.average.school);
                 total_support_average += parseInt(data.average.techsupport)
                 total_efficiency_average += parseInt(data.average.efficiency);
@@ -177,7 +176,7 @@ const adminDashboard = () => {
         <section className="container px-4 mx-auto">
             <div className="flex justify-between gap-x-3 w-full">
                 <div className='flex gap-2'>
-                    <h2 className="text-lg font-medium text-gray-800 dark:text-white">Responses</h2>
+                    <h2 className="text-lg font-medium text-gray-800 dark:text-white">Evaluations</h2>
                 </div>
             </div>
             <div className='flex  gap-2 items-end justify-end'>   
@@ -212,18 +211,18 @@ const adminDashboard = () => {
                              <table ref={tableRef}  id="systemTable" className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead className="bg-gray-50dark:bg-gray-800">
                                     <tr>
-                                        <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                        <th scope="col" className="py-3.5 px-4 text-sm font-bold text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                             <div className="flex items-center gap-x-3">
                                                 <span>Name</span>
                                             </div>
                                         </th>
 
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Position</th>
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">School</th>
-                                        <th scope="col" className="px-2 py-3 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">School Evaluation</th>
-                                        <th scope="col" className="px-2 py-3 text-sm font-normal  text-center rtl:text-right text-gray-500 dark:text-gray-400">Customer Service</th>
-                                        <th scope="col" className="px-2 py-3 text-sm font-normal  text-center rtl:text-right text-gray-500 dark:text-gray-400">Efficiency Evaluation</th>
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Actions</th>
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500 dark:text-gray-400">Position</th>
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500 dark:text-gray-400">School</th>
+                                        <th scope="col" className="px-2 py-3 text-sm font-bold text-center rtl:text-right text-gray-500 dark:text-gray-400">School Evaluation</th>
+                                        <th scope="col" className="px-2 py-3 text-sm font-bold  text-center rtl:text-right text-gray-500 dark:text-gray-400">Customer Service</th>
+                                        <th scope="col" className="px-2 py-3 text-sm font-bold  text-center rtl:text-right text-gray-500 dark:text-gray-400">Efficiency Evaluation</th>
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500 dark:text-gray-400">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
@@ -266,7 +265,7 @@ const adminDashboard = () => {
                                                     </AlertDialogTrigger>
                                                     <AlertDialogContent>
                                                         <AlertDialogHeader>
-                                                        <AlertDialogTitle>Response Summary</AlertDialogTitle>
+                                                        <AlertDialogTitle>Evaluation Summary</AlertDialogTitle>
                                                         <AlertDialogDescription>
                                                         <Select className="my-2" onValueChange={(value) => setSelectResponseSummary(value) }>
                                                             <SelectTrigger className="w-[180px]"  >
@@ -299,8 +298,8 @@ const adminDashboard = () => {
                                                                     <table ref={systemRef} className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
-                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
-                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
                                                                             </tr>
                                                                         </thead>
                                                                             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
@@ -312,7 +311,9 @@ const adminDashboard = () => {
                                                                                         <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
                                                                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                                 <div className="flex items-center gap-x-2">
-                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.school_evaluation ? getEvaluationValue(evaluationDetail?.school_evaluation[item?.question_id]) : '' }</p>
+                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">
+                                                                                                        { evaluationDetail?.school_evaluation ? getEvaluationValue(evaluationDetail?.school_evaluation[item?.question_id]) + ' - ' + evaluationDetail?.school_evaluation[item?.question_id] : '' }
+                                                                                                    </p>
                                                                                                 </div>
                                                                                             </td>
                                                                                         </>
@@ -325,10 +326,10 @@ const adminDashboard = () => {
                                                                                     <EvaluationDetailLoader></EvaluationDetailLoader>
                                                                                     ) : (
                                                                                         <>
-                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%] font-bold"> Average Score </td>
                                                                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                             <div className="flex items-center gap-x-2">
-                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getEvaluationValue(evaluationDetail?.average?.school) : '' }</p>
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getEvaluationValue(evaluationDetail?.average?.school) + ' - ' + evaluationDetail?.average?.school : '' }</p>
                                                                                             </div>
                                                                                         </td>
                                                                                         </>
@@ -342,7 +343,7 @@ const adminDashboard = () => {
                                                             { selectResponseSummary === 'customer' && (
                                                                 <>
                                                                 <div className='w-full flex justify-end'>
-                                                                <Button  onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
+                                                                <Button onClick={evaluationPrint}><LocalPrintshopTwoToneIcon />Print</Button>
                                                                </div>
                                                                {/* <div className='flex justify-between mt-3 mb-2'>
                                                                         <span><span className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">5</span>- Excellent</span>
@@ -354,8 +355,8 @@ const adminDashboard = () => {
                                                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
-                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
-                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
                                                                             </tr>
                                                                         </thead>
                                                                             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
@@ -367,7 +368,9 @@ const adminDashboard = () => {
                                                                                         <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
                                                                                             <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                                 <div className="flex items-center gap-x-2">
-                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.techsupport_evaluation ? getEvaluationValue(evaluationDetail?.techsupport_evaluation[item?.question_id]) : '' }</p>
+                                                                                                    <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">
+                                                                                                        { evaluationDetail?.techsupport_evaluation ? getEvaluationValue(evaluationDetail?.techsupport_evaluation[item?.question_id]) + ' - ' + evaluationDetail?.techsupport_evaluation[item?.question_id] : '' }
+                                                                                                    </p>
                                                                                                 </div>
                                                                                             </td>
                                                                                         </>
@@ -380,10 +383,10 @@ const adminDashboard = () => {
                                                                                     <EvaluationDetailLoader></EvaluationDetailLoader>
                                                                                     ) : (
                                                                                         <>
-                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Average Score</td>
+                                                                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%] font-bold ">Average Score</td>
                                                                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                             <div className="flex items-center gap-x-2">
-                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getEvaluationValue(evaluationDetail?.average?.techsupport) : '' }</p>
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getEvaluationValue(evaluationDetail?.average?.techsupport) + ' - ' + evaluationDetail?.average?.techsupport: '' }</p>
                                                                                             </div>
                                                                                         </td>
                                                                                         </>
@@ -409,8 +412,8 @@ const adminDashboard = () => {
                                                                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3" ref={evaluationRef}>
                                                                     <thead className="bg-gray-50 dark:bg-gray-800">
                                                                         <tr>
-                                                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
-                                                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
+                                                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-800 dark:text-gray-400">Question</th>
+                                                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-800 dark:text-gray-400">Answer</th>
                                                                         </tr>
                                                                     </thead>
                                                                         <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
@@ -422,7 +425,9 @@ const adminDashboard = () => {
                                                                                     <><td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">{item.question}</td>
                                                                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                             <div className="flex items-center gap-x-2">
-                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.efficiency_evaluation ? getPercentageValue(evaluationDetail?.efficiency_evaluation[item?.question_id]) : '' }</p>
+                                                                                                <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">
+                                                                                                    { evaluationDetail?.efficiency_evaluation ? getPercentageValue(evaluationDetail?.efficiency_evaluation[item?.question_id]) + " - " + evaluationDetail?.efficiency_evaluation[item?.question_id] : '' }
+                                                                                                </p>
                                                                                             </div>
                                                                                         </td>
                                                                                     </>
@@ -435,10 +440,10 @@ const adminDashboard = () => {
                                                                                 <EvaluationDetailLoader></EvaluationDetailLoader>
                                                                                 ) : (
                                                                                     <>
-                                                                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Total Store</td>
+                                                                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap w-[80%]">Average Store</td>
                                                                                     <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                                                         <div className="flex items-center gap-x-2">
-                                                                                            <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getPercentageValue(evaluationDetail?.average?.efficiency) : '' }</p>
+                                                                                            <p className="px-3 py-1 text-xs text-blue-500 rounded-full dark:bg-gray-800 bg-blue-100">{ evaluationDetail?.average ? getPercentageValue(evaluationDetail?.average?.efficiency) + " - " + evaluationDetail?.average?.efficiency : '' }</p>
                                                                                         </div>
                                                                                     </td>
                                                                                     </>
@@ -454,7 +459,7 @@ const adminDashboard = () => {
                                                                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 my-3">
                                                                         <thead className="bg-gray-50 dark:bg-gray-800">
                                                                             <tr>
-                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-800 dark:text-gray-400">Feedback:</th>
+                                                                                <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-800 dark:text-gray-400">Feedback:</th>
                                                                             </tr>
                                                                         </thead>
                                                                             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">                                                                                                                                                      
