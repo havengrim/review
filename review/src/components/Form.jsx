@@ -70,7 +70,7 @@ function Form() {
         <div className="flex justify-center mx-auto">
               {/* gci client or gocloud */}
               { school?.logo == 'gci' && (
-                  <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+                  <img className="w-[10rem] h-12" src={ academe } alt="logo" />
               )}
               {/* for globe clients */}
               {/* { school?.logo == 'globe' && ( */}

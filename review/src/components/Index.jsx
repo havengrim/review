@@ -69,7 +69,7 @@ const Index = () => {
                 <div className='flex gap-2 flex-col items-center justify-center'>
                     {/* gci client or gocloud */}
                     { logo == 'gci' && (
-                        <img className="w-[10rem] h-14 sm:h-14" src={ academe } alt="logo" />
+                        <img className="w-[12rem] h-14" src={ academe } alt="logo" />
                     )}
                     {/* for globe clients */}
                     {/* { logo == 'globe' && (
